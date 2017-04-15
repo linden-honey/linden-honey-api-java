@@ -49,11 +49,10 @@ dependencies {
 /**
  *  Other dependencies
  */
-    compileOnly 'org.projectlombok:lombok'
-    compile 'org.apache.commons:commons-lang'
-//    compile 'org.flywaydb:flyway-core'
-    runtime 'com.h2database:h2'
-//    runtime 'org.postgresql:postgresql'
+    compileOnly 'org.projectlombok:lombok:1.16.16'
+    compile 'org.apache.commons:commons-lang3:3.4'
+    compile 'org.flywaydb:flyway-core:4.1.1'
+    runtime 'org.postgresql:postgresql:42.0.0'
 
 /**
  *  Test dependencies
