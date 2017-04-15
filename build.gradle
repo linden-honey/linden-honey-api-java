@@ -1,0 +1,62 @@
+group = 'com.github.alebabai'
+version = '0.0.1-SNAPSHOT'
+
+buildscript {
+    ext {
+        springBootVersion = '1.5.2.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+jar {
+    baseName = this.name
+    group = this.group
+    version = this.version
+}
+
+bootRun {
+    addResources = true
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.4.1'
+    distributionType = Wrapper.DistributionType.ALL
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+/**
+ *  Spring dependencies
+ */
+    compile 'org.springframework.boot:spring-boot-starter-data-jpa'
+    compile 'org.springframework.boot:spring-boot-starter-data-rest'
+
+/**
+ *  Other dependencies
+ */
+    compileOnly 'org.projectlombok:lombok'
+    compile 'org.apache.commons:commons-lang'
+//    compile 'org.flywaydb:flyway-core'
+    runtime 'com.h2database:h2'
+//    runtime 'org.postgresql:postgresql'
+
+/**
+ *  Test dependencies
+ */
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+}
