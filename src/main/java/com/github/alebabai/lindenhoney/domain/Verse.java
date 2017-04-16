@@ -15,7 +15,7 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-@Accessors(fluent = true)
+@Accessors(chain = true)
 @EqualsAndHashCode(exclude = {"quotes"})
 @ToString(exclude = {"quotes"})
 @Entity
@@ -26,17 +26,23 @@ public class Verse implements Persistable<Integer> {
     @SequenceGenerator(name = "verse_id_seq", sequenceName = "verse_id_seq", allocationSize = 1)
     private Integer id;
 
-    @OneToMany(mappedBy = "verse", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "verse", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Quote> quotes = new ArrayList<>();
 
     @NotNull(message = "Song is required!")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "song_id", referencedColumnName = "id", nullable = false, updatable = false)
     private Song song;
 
     public Verse(List<Quote> quotes, Song song) {
-        this.quotes = quotes;
+        this.setQuotes(quotes);
         this.song = song;
+    }
+
+    public Verse setQuotes(List<Quote> quotes) {
+        this.quotes.clear();
+        this.quotes.addAll(quotes);
+        return this;
     }
 
     @JsonIgnore

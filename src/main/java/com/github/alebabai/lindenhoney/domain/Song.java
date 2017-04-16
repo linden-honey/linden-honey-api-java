@@ -15,7 +15,7 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-@Accessors(fluent = true)
+@Accessors(chain = true)
 @EqualsAndHashCode(exclude = {"verses"})
 @ToString(exclude = {"verses"})
 @Entity
@@ -33,7 +33,7 @@ public class Song implements Persistable<Integer> {
     @Column(name = "author")
     private String author;
 
-    @OneToMany(mappedBy = "song", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "song", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Verse> verses = new ArrayList<>();
 
     public Song(String title, List<Verse> verses) {
@@ -44,7 +44,13 @@ public class Song implements Persistable<Integer> {
     public Song(String title, String author, List<Verse> verses) {
         this.title = title;
         this.author = author;
-        this.verses = verses;
+        this.verses.addAll(verses);
+    }
+
+    public Song setVerses(List<Verse> verses) {
+        this.verses.clear();
+        this.verses.addAll(verses);
+        return this;
     }
 
     @JsonIgnore

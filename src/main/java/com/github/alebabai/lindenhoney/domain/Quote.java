@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 
 @Data
 @NoArgsConstructor
-@Accessors(fluent = true)
+@Accessors(chain = true)
 @Entity
 @Table(name = "quote")
 public class Quote implements Persistable<Integer> {
@@ -25,7 +25,7 @@ public class Quote implements Persistable<Integer> {
     private String phrase;
 
     @NotNull(message = "Verse is required!")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "verse_id", referencedColumnName = "id", nullable = false, updatable = false)
     private Verse verse;
 

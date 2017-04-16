@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.*;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
@@ -67,6 +68,7 @@ abstract public class AbstractRepositoryTest<T extends Persistable<ID>, ID exten
     }
 
     @Before
+    @Rollback
     public void initialization() {
         this.entity = generateEntity();
         this.entities = generateEntities(getRandomInteger(MAX_ENTITIES_COUNT));
