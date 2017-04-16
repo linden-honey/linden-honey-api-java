@@ -18,6 +18,6 @@ CREATE TABLE quote (
     phrase VARCHAR(MAX) NOT NULL,
     verse_id INTEGER NOT NULL,
     CONSTRAINT pk_quote_id PRIMARY KEY (id),
-    CONSTRAINT uk_quote_id_song_id UNIQUE (id, verse_id),
+    CONSTRAINT uk_quote_id_verse_id UNIQUE (id, verse_id),
     CONSTRAINT fk_quote_verse_id FOREIGN KEY (verse_id) REFERENCES verse (id) ON DELETE CASCADE ON UPDATE CASCADE
 );
