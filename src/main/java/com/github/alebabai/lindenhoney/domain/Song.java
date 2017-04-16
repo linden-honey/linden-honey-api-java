@@ -9,12 +9,13 @@ import lombok.experimental.Accessors;
 import org.springframework.data.domain.Persistable;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @NoArgsConstructor
-@Accessors(chain = true)
+@Accessors(fluent = true)
 @EqualsAndHashCode(exclude = {"verses"})
 @ToString(exclude = {"verses"})
 @Entity
@@ -25,6 +26,7 @@ public class Song implements Persistable<Integer> {
     @SequenceGenerator(name = "song_id_seq", sequenceName = "song_id_seq", allocationSize = 1)
     private Integer id;
 
+    @NotNull(message = "Title is required!")
     @Column(name = "title", nullable = false)
     private String title;
 
@@ -33,6 +35,11 @@ public class Song implements Persistable<Integer> {
 
     @OneToMany(mappedBy = "song", cascade = CascadeType.ALL)
     private List<Verse> verses = new ArrayList<>();
+
+    public Song(String title, List<Verse> verses) {
+        this.title = title;
+        this.verses = verses;
+    }
 
     public Song(String title, String author, List<Verse> verses) {
         this.title = title;

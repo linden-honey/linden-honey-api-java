@@ -7,10 +7,11 @@ import lombok.experimental.Accessors;
 import org.springframework.data.domain.Persistable;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Data
 @NoArgsConstructor
-@Accessors(chain = true)
+@Accessors(fluent = true)
 @Entity
 @Table(name = "quote")
 public class Quote implements Persistable<Integer> {
@@ -19,9 +20,11 @@ public class Quote implements Persistable<Integer> {
     @SequenceGenerator(name = "quote_id_seq", sequenceName = "quote_id_seq", allocationSize = 1)
     private Integer id;
 
+    @NotNull(message = "Phrase is required!")
     @Column(name = "phrase", nullable = false)
     private String phrase;
 
+    @NotNull(message = "Verse is required!")
     @ManyToOne(optional = false)
     @JoinColumn(name = "verse_id", referencedColumnName = "id", nullable = false, updatable = false)
     private Verse verse;

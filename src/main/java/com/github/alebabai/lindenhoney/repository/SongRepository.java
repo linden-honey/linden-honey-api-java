@@ -15,4 +15,8 @@ public interface SongRepository extends PagingAndSortingRepository<Song, Integer
     @RestResource(exported = false)
     @Override
     void delete(Integer id);
+
+    @RestResource(exported = false)
+    @Override
+    void delete(Song song);
 }

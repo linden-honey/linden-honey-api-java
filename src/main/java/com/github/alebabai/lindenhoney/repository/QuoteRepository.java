@@ -16,4 +16,8 @@ public interface QuoteRepository extends PagingAndSortingRepository<Quote, Integ
     @RestResource(exported = false)
     @Override
     void delete(Integer id);
+
+    @RestResource(exported = false)
+    @Override
+    void delete(Quote quote);
 }
