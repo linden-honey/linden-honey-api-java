@@ -22,7 +22,7 @@ public class QuoteRepositoryTest extends AbstractRepositoryTest<Quote, Integer, 
 
     @Override
     protected Quote generateEntity() {
-        final Song song = new Song(getRandomString(MAX_STRING_LENGTH), getRandomString(MAX_STRING_LENGTH), Collections.emptyList());
+        final Song song = new Song(getRandomString(MAX_STRING_LENGTH), getRandomString(MAX_STRING_LENGTH), getRandomString(MAX_STRING_LENGTH), Collections.emptyList());
         final Verse verse = new Verse(Collections.emptyList(), song);
         return new Quote(getRandomString(MAX_STRING_LENGTH), verse);
     }

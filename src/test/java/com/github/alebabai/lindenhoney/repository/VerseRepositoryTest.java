@@ -14,7 +14,7 @@ public class VerseRepositoryTest extends AbstractRepositoryTest<Verse, Integer, 
 
     @Override
     protected Verse generateEntity() {
-        final Song song = new Song(getRandomString(MAX_STRING_LENGTH), getRandomString(MAX_STRING_LENGTH), Collections.emptyList());
+        final Song song = new Song(getRandomString(MAX_STRING_LENGTH), getRandomString(MAX_STRING_LENGTH), getRandomString(MAX_STRING_LENGTH), Collections.emptyList());
         return new Verse(Collections.emptyList(), song);
     }
 }

@@ -12,6 +12,6 @@ import static com.github.alebabai.lindenhoney.util.TestUtils.getRandomString;
 public class SongRepositoryTest extends AbstractRepositoryTest<Song, Integer, SongRepository> {
     @Override
     protected Song generateEntity() {
-        return new Song(getRandomString(MAX_STRING_LENGTH), getRandomString(MAX_STRING_LENGTH), Collections.emptyList());
+        return new Song(getRandomString(MAX_STRING_LENGTH), getRandomString(MAX_STRING_LENGTH), getRandomString(MAX_STRING_LENGTH), Collections.emptyList());
     }
 }
