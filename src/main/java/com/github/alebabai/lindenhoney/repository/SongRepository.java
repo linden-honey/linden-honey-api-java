@@ -6,7 +6,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 
 @RepositoryRestResource(path = "songs", collectionResourceRel = "songs")
-public interface SongRepository extends PagingAndSortingRepository<Song, Long> {
+public interface SongRepository extends PagingAndSortingRepository<Song, Integer> {
 
     @RestResource(exported = false)
     @Override
@@ -14,5 +14,5 @@ public interface SongRepository extends PagingAndSortingRepository<Song, Long> {
 
     @RestResource(exported = false)
     @Override
-    void delete(Long id);
+    void delete(Integer id);
 }

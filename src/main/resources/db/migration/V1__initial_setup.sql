@@ -15,7 +15,7 @@ CREATE TABLE verse (
 
 CREATE TABLE quote (
     id SERIAL,
-    phrase VARCHAR(MAX) NOT NULL,
+    phrase VARCHAR(255) NOT NULL,
     verse_id INTEGER NOT NULL,
     CONSTRAINT pk_quote_id PRIMARY KEY (id),
     CONSTRAINT uk_quote_id_verse_id UNIQUE (id, verse_id),

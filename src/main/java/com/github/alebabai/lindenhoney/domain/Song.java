@@ -19,11 +19,11 @@ import java.util.List;
 @ToString(exclude = {"verses"})
 @Entity
 @Table(name = "song")
-public class Song implements Persistable<Long> {
+public class Song implements Persistable<Integer> {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "song_id_seq")
     @SequenceGenerator(name = "song_id_seq", sequenceName = "song_id_seq", allocationSize = 1)
-    private Long id;
+    private Integer id;
 
     @Column(name = "title", nullable = false)
     private String title;
@@ -31,24 +31,18 @@ public class Song implements Persistable<Long> {
     @Column(name = "author")
     private String author;
 
-    @OneToMany(mappedBy = "song", orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "song", cascade = CascadeType.ALL)
     private List<Verse> verses = new ArrayList<>();
 
     public Song(String title, String author, List<Verse> verses) {
         this.title = title;
         this.author = author;
-        this.setVerses(verses);
-    }
-
-    public Song setVerses(List<Verse> verses) {
-        this.verses.clear();
-        this.verses.addAll(verses);
-        return this;
+        this.verses = verses;
     }
 
     @JsonIgnore
     @Override
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 

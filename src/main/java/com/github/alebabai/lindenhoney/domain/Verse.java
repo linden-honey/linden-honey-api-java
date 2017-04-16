@@ -19,13 +19,13 @@ import java.util.List;
 @ToString(exclude = {"quotes"})
 @Entity
 @Table(name = "verse")
-public class Verse implements Persistable<Long> {
+public class Verse implements Persistable<Integer> {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "verse_id_seq")
     @SequenceGenerator(name = "verse_id_seq", sequenceName = "verse_id_seq", allocationSize = 1)
-    private Long id;
+    private Integer id;
 
-    @OneToMany(mappedBy = "verse", orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "verse", cascade = CascadeType.ALL)
     private List<Quote> quotes = new ArrayList<>();
 
     @ManyToOne(optional = false)
@@ -37,15 +37,9 @@ public class Verse implements Persistable<Long> {
         this.song = song;
     }
 
-    public Verse setQuotes(List<Quote> quotes) {
-        this.quotes.clear();
-        this.quotes.addAll(quotes);
-        return this;
-    }
-
     @JsonIgnore
     @Override
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 

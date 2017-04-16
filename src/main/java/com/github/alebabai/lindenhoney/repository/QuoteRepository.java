@@ -7,7 +7,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 
 @RepositoryRestResource(path = "quotes", collectionResourceRel = "quotes")
-public interface QuoteRepository extends PagingAndSortingRepository<Quote, Long> {
+public interface QuoteRepository extends PagingAndSortingRepository<Quote, Integer> {
 
     @RestResource(exported = false)
     @Override
@@ -15,5 +15,5 @@ public interface QuoteRepository extends PagingAndSortingRepository<Quote, Long>
 
     @RestResource(exported = false)
     @Override
-    void delete(Long id);
+    void delete(Integer id);
 }
