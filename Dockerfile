@@ -1,7 +1,6 @@
 FROM java:8-jdk
 
 LABEL name="linden-honey" \
-      description="Linden Honey" \
       maintainer="aliaksandr.babai@gmail.com"
 
 ARG ROOT_DIR=/usr/workspace
