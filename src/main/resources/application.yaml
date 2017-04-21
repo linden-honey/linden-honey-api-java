@@ -1,0 +1,54 @@
+# ===============================
+# [ TG2VK Properties ]
+# ===============================
+linden_honey:
+  app:
+    name: Linden Honey
+  db:
+    url: postgresql://localhost:5433/linden_honey_local
+    username: linden_honey_local
+    password: linden_honey_local
+
+
+# ===============================
+# [ Spring Properties ]
+# ===============================
+spring:
+  application:
+    name: ${linden_honey.app.name}
+  data:
+    rest:
+      basePath: /api
+  datasource:
+    url: jdbc:${linden_honey.db.url}
+    username: ${linden_honey.db.username}
+    password: ${linden_honey.db.password}
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: validate
+      id:
+        new_generator_mappings: true
+
+
+# ===============================
+# [ Flyway Properties ]
+# ===============================
+flyway:
+  enabled: true
+  locations: classpath:db/migration
+
+
+# ===============================
+# [ Logging Properties ]
+# ===============================
+logging:
+  level:
+    com:
+      github:
+        alebabai:
+          lindenhoney: DEBUG
+    org:
+      springframework: INFO
+      hibernate: ERROR
+      flywaydb: INFO
