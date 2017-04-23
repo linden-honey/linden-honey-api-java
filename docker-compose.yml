@@ -1,19 +1,8 @@
 version: "3"
 
 services:
-  app:
-    container_name: linden-honey-spring
-    build: .
-    ports:
-     - "8080:8080"
-    networks:
-      - linden-honey-spring-net
-    links:
-     - db
-    environment:
-     - LINDEN_HONEY_DB_URL=postgresql://db:5432/linden_honey_local
   db:
-    container_name: linden-honey-postgres
+    container_name: linden-honey-spring-db
     image: "postgres:latest"
     environment:
      - POSTGRES_USER=linden_honey_local
@@ -23,6 +12,17 @@ services:
      - "5432"
     networks:
       - linden-honey-spring-net
+  app:
+    container_name: linden-honey-spring-app
+    build: .
+    ports:
+     - "8080:8080"
+    networks:
+      - linden-honey-spring-net
+    links:
+     - db
+    environment:
+     - LINDEN_HONEY_DB_URL=postgresql://db:5432/linden_honey_local
 
 networks:
   linden-honey-spring-net:
