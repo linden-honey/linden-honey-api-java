@@ -4,6 +4,7 @@ import com.github.alebabai.lindenhoney.domain.Song;
 import com.github.alebabai.lindenhoney.domain.Verse;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -60,10 +61,10 @@ public class SongRepositoryTest extends AbstractRepositoryTest<Song, Integer, So
     }
 
     @Test
-    public void findSongByTitleLikeIgnoreCaseTest() {
-        Song song = repository.save(generateEntity());
+    public void findSongsByTitleContainingIgnoreCaseTest() {
+        Song song = repository.save(generateEntity().setTitle("Some big title"));
 
-        assertThat(repository.findSongByTitleLikeIgnoreCase(song.getTitle()), is(song));
+        assertThat(repository.findSongsByTitleContainingIgnoreCase("some", new PageRequest(0, 1)).getContent(), contains(song));
     }
 
 }
