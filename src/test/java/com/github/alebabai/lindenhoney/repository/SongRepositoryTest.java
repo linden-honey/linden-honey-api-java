@@ -58,4 +58,12 @@ public class SongRepositoryTest extends AbstractRepositoryTest<Song, Integer, So
 
         assertThat(repository.findOne(song.getId()).getVerses(), emptyCollectionOf(Verse.class));
     }
+
+    @Test
+    public void findSongByTitleLikeIgnoreCaseTest() {
+        Song song = repository.save(generateEntity());
+
+        assertThat(repository.findSongByTitleLikeIgnoreCase(song.getTitle()), is(song));
+    }
+
 }
