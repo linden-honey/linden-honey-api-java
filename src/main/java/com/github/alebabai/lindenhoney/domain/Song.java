@@ -43,7 +43,7 @@ public class Song implements Persistable<Integer> {
         this.title = title;
         this.author = author;
         this.album = album;
-        this.setVerses(verses);
+        this.verses = verses;
     }
 
     public Song setVerses(List<Verse> verses) {

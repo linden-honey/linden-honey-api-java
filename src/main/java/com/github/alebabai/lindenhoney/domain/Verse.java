@@ -35,7 +35,7 @@ public class Verse implements Persistable<Integer> {
     private Song song;
 
     public Verse(List<Quote> quotes, Song song) {
-        this.setQuotes(quotes);
+        this.quotes = quotes;
         this.song = song;
     }
 
