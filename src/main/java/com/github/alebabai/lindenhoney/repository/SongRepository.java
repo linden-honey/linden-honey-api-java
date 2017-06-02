@@ -1,12 +1,13 @@
 package com.github.alebabai.lindenhoney.repository;
 
 import com.github.alebabai.lindenhoney.domain.Song;
+import com.github.alebabai.lindenhoney.domain.projection.SongMin;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 
-@RepositoryRestResource(path = "songs", collectionResourceRel = "songs")
+@RepositoryRestResource(path = "songs", collectionResourceRel = "songs", excerptProjection = SongMin.class)
 public interface SongRepository extends PagingAndSortingRepository<Song, Integer> {
 
     @RestResource(exported = false)

@@ -24,14 +24,8 @@ public class Quote implements Persistable<Integer> {
     @Column(name = "phrase", nullable = false)
     private String phrase;
 
-    @NotNull(message = "Verse is required!")
-    @ManyToOne(optional = false, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinColumn(name = "verse_id", referencedColumnName = "id", nullable = false, updatable = false)
-    private Verse verse;
-
-    public Quote(String phrase, Verse verse) {
+    public Quote(String phrase) {
         this.phrase = phrase;
-        this.verse = verse;
     }
 
     @JsonIgnore

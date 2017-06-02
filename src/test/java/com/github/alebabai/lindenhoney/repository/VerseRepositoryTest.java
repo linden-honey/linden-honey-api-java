@@ -1,20 +1,14 @@
 package com.github.alebabai.lindenhoney.repository;
 
-import com.github.alebabai.lindenhoney.domain.Song;
-import com.github.alebabai.lindenhoney.domain.Verse;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
-import java.util.Collections;
 
-import static com.github.alebabai.lindenhoney.util.TestUtils.MAX_STRING_LENGTH;
-import static com.github.alebabai.lindenhoney.util.TestUtils.getRandomString;
-
+@RunWith(SpringRunner.class)
+@SpringBootTest
 @Transactional
-public class VerseRepositoryTest extends AbstractRepositoryTest<Verse, Integer, VerseRepository> {
+public class VerseRepositoryTest {
 
-    @Override
-    protected Verse generateEntity() {
-        final Song song = new Song(getRandomString(MAX_STRING_LENGTH), getRandomString(MAX_STRING_LENGTH), getRandomString(MAX_STRING_LENGTH), Collections.emptyList());
-        return new Verse(Collections.emptyList(), song);
-    }
 }

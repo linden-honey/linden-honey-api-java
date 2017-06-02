@@ -36,7 +36,8 @@ public class Song implements Persistable<Integer> {
     @Column(name = "album")
     private String album;
 
-    @OneToMany(mappedBy = "song", orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
+    @JoinColumn(name = "song_id", referencedColumnName = "id", nullable = false, updatable = false)
     private List<Verse> verses = new ArrayList<>();
 
     public Song(String title, String author, String album, List<Verse> verses) {

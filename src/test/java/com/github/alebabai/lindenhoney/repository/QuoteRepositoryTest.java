@@ -1,29 +1,15 @@
 package com.github.alebabai.lindenhoney.repository;
 
-import com.github.alebabai.lindenhoney.domain.Quote;
-import com.github.alebabai.lindenhoney.domain.Song;
-import com.github.alebabai.lindenhoney.domain.Verse;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
-import java.util.Collections;
 
-import static com.github.alebabai.lindenhoney.util.TestUtils.MAX_STRING_LENGTH;
-import static com.github.alebabai.lindenhoney.util.TestUtils.getRandomString;
-
+@RunWith(SpringRunner.class)
+@SpringBootTest
 @Transactional
-public class QuoteRepositoryTest extends AbstractRepositoryTest<Quote, Integer, QuoteRepository> {
+public class QuoteRepositoryTest {
 
-    @Autowired
-    private VerseRepository verseRepository;
 
-    @Autowired
-    private SongRepository songRepository;
-
-    @Override
-    protected Quote generateEntity() {
-        final Song song = new Song(getRandomString(MAX_STRING_LENGTH), getRandomString(MAX_STRING_LENGTH), getRandomString(MAX_STRING_LENGTH), Collections.emptyList());
-        final Verse verse = new Verse(Collections.emptyList(), song);
-        return new Quote(getRandomString(MAX_STRING_LENGTH), verse);
-    }
 }

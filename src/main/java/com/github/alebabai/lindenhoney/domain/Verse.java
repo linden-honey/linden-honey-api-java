@@ -9,7 +9,6 @@ import lombok.experimental.Accessors;
 import org.springframework.data.domain.Persistable;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,17 +25,12 @@ public class Verse implements Persistable<Integer> {
     @SequenceGenerator(name = "verse_id_seq", sequenceName = "verse_id_seq", allocationSize = 1)
     private Integer id;
 
-    @OneToMany(mappedBy = "verse", orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
+    @JoinColumn(name = "verse_id", referencedColumnName = "id", nullable = false, updatable = false)
     private List<Quote> quotes = new ArrayList<>();
 
-    @NotNull(message = "Song is required!")
-    @ManyToOne(optional = false, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinColumn(name = "song_id", referencedColumnName = "id", nullable = false, updatable = false)
-    private Song song;
-
-    public Verse(List<Quote> quotes, Song song) {
+    public Verse(List<Quote> quotes) {
         this.quotes = quotes;
-        this.song = song;
     }
 
     public Verse setQuotes(List<Quote> quotes) {
