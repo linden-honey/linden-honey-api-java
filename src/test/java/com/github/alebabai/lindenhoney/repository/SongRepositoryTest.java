@@ -1,32 +1,32 @@
 package com.github.alebabai.lindenhoney.repository;
 
-import com.github.alebabai.lindenhoney.domain.Quote;
 import com.github.alebabai.lindenhoney.domain.Song;
-import com.github.alebabai.lindenhoney.domain.Verse;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.transaction.Transactional;
+import java.util.Collection;
 
-import static com.github.alebabai.lindenhoney.util.TestUtils.MAX_STRING_LENGTH;
-import static com.github.alebabai.lindenhoney.util.TestUtils.getRandomString;
-import static java.util.Arrays.asList;
+import static com.github.alebabai.lindenhoney.util.EntityUtils.generateSong;
+import static com.github.alebabai.lindenhoney.util.TestUtils.MAX_ENTITIES_COUNT;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.isIn;
+import static org.hamcrest.Matchers.notNullValue;
 
-@Transactional
 public class SongRepositoryTest extends AbstractRepositoryTest<Song, Integer, SongRepository> {
     @Override
     protected Song generateEntity() {
-        final Quote quote1 = new Quote("Some phrase");
-        final Quote quote2 = new Quote("Some phrase");
-        final Quote quote3 = new Quote("Some phrase");
-        final Quote quote4 = new Quote("Some phrase");
+        return generateSong();
+    }
 
-        final Verse verse1 = new Verse(asList(quote1, quote2));
-        final Verse verse2 = new Verse(asList(quote3, quote4));
+    @Autowired
+    private SongRepository songRepository;
 
-        return new Song(getRandomString(
-                MAX_STRING_LENGTH),
-                getRandomString(MAX_STRING_LENGTH),
-                getRandomString(MAX_STRING_LENGTH),
-                asList(verse1, verse2)
-        );
+    @Test
+    public void findRandomSongTest() {
+        final Collection<Song> songs = (Collection<Song>) songRepository.save(generateEntities(MAX_ENTITIES_COUNT));
+        final Song randomSong = songRepository.findRandomSong();
+
+        assertThat(randomSong, notNullValue());
+        assertThat(randomSong, isIn(songs));
     }
 }

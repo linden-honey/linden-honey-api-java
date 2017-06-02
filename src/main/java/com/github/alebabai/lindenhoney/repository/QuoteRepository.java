@@ -10,5 +10,5 @@ import org.springframework.data.rest.core.annotation.RestResource;
 public interface QuoteRepository extends Repository<Quote, Integer> {
 
     @Query(value = "SELECT * FROM QUOTE ORDER BY RANDOM() LIMIT 1", nativeQuery = true)
-    Quote findRandomSong();
+    Quote findRandomQuote();
 }

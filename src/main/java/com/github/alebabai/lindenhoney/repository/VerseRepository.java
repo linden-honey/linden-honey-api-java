@@ -9,5 +9,5 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 public interface VerseRepository extends Repository<Verse, Integer> {
 
     @Query(value = "SELECT * FROM VERSE ORDER BY RANDOM() LIMIT 1", nativeQuery = true)
-    Verse findRandomSong();
+    Verse findRandomVerse();
 }
