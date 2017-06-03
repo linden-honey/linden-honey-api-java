@@ -10,10 +10,12 @@ import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.hateoas.EntityLinks;
 import org.springframework.hateoas.ExposesResourceFor;
 import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.Resources;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
@@ -31,6 +33,32 @@ public class SongController {
         this.quoteRepository = quoteRepository;
         this.verseRepository = verseRepository;
         this.entityLinks = entityLinks;
+    }
+
+    @GetMapping("/songs/{songId}/quotes")
+    @ResponseBody
+    public Resources<Quote> getAllQuotesFromSong(@PathVariable("songId") Integer songId) {
+        final List<Quote> quotes = Optional.ofNullable(quoteRepository.findAllQuotesFromSong(songId))
+                .filter(quoteList -> !quoteList.isEmpty())
+                .orElseThrow(ResourceNotFoundException::new);
+        return new Resources<>(
+                quotes,
+                entityLinks.linkForSingleResource(Song.class, songId).withRel("song"),
+                linkTo(methodOn(this.getClass()).getAllQuotesFromSong(songId)).withSelfRel()
+        );
+    }
+
+    @GetMapping("/songs/{songId}/verses")
+    @ResponseBody
+    public Resources<Verse> getAllVersesFromSong(@PathVariable("songId") Integer songId) {
+        final List<Verse> verses = Optional.ofNullable(verseRepository.findAllVersesFromSong(songId))
+                .filter(verseList -> !verseList.isEmpty())
+                .orElseThrow(ResourceNotFoundException::new);
+        return new Resources<>(
+                verses,
+                entityLinks.linkForSingleResource(Song.class, songId).withRel("song"),
+                linkTo(methodOn(this.getClass()).getAllVersesFromSong(songId)).withSelfRel()
+        );
     }
 
     @GetMapping("/songs/{songId}/quotes/search/random")
