@@ -16,9 +16,6 @@ linden_honey:
 spring:
   application:
     name: ${linden_honey.app.name}
-  data:
-    rest:
-      basePath: /api
   datasource:
     url: jdbc:${linden_honey.db.url}
     username: ${linden_honey.db.username}
