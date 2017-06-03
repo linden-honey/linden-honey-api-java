@@ -9,8 +9,13 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.List;
+
 import static com.github.alebabai.lindenhoney.util.EntityUtils.generateSong;
+import static com.github.alebabai.lindenhoney.util.EntityUtils.generateVerse;
+import static java.util.Arrays.asList;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.isIn;
 import static org.hamcrest.Matchers.notNullValue;
 
@@ -32,5 +37,25 @@ public class VerseRepositoryTest {
 
         assertThat(randomVerse, notNullValue());
         assertThat(randomVerse, isIn(song.getVerses()));
+    }
+
+    @Test
+    public void findRandomVerseFromSongTest() {
+        final Song song = songRepository.save(generateSong());
+        final Verse randomVerse = verseRepository.findRandomVerseFromSong(song.getId());
+
+        assertThat(randomVerse, notNullValue());
+        assertThat(randomVerse, isIn(song.getVerses()));
+    }
+
+    @Test
+    public void findAllVersesFromSong() {
+        final Verse verse1 = generateVerse();
+        final Verse verse2 = generateVerse();
+        final Song song = songRepository.save(generateSong()
+                .setVerses(asList(verse1, verse2)));
+
+        final List<Verse> verses = verseRepository.findAllVersesFromSong(song.getId());
+        assertThat(verses, contains(verse1, verse2));
     }
 }
