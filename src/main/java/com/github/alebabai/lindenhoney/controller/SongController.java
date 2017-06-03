@@ -44,6 +44,7 @@ public class SongController {
         return new Resources<>(
                 quotes,
                 entityLinks.linkForSingleResource(Song.class, songId).withRel("song"),
+                linkTo(methodOn(SongController.class).getRandomQuoteFromSong(songId)).withRel("randomQuote"),
                 linkTo(methodOn(this.getClass()).getAllQuotesFromSong(songId)).withSelfRel()
         );
     }
@@ -57,6 +58,7 @@ public class SongController {
         return new Resources<>(
                 verses,
                 entityLinks.linkForSingleResource(Song.class, songId).withRel("song"),
+                linkTo(methodOn(SongController.class).getRandomVerseFromSong(songId)).withRel("randomVerse"),
                 linkTo(methodOn(this.getClass()).getAllVersesFromSong(songId)).withSelfRel()
         );
     }
