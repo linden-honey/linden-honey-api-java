@@ -8,6 +8,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
@@ -42,6 +44,31 @@ public class QuoteRepositoryTest {
 
         assertThat(randomQuote, notNullValue());
         assertThat(randomQuote, isIn(quotes));
+    }
+
+    @Test
+    public void findRandomQuoteFromSongTest() {
+        final Song song = songRepository.save(generateSong());
+        final Quote randomQuote = quoteRepository.findRandomQuoteFromSong(song.getId());
+        final List<Quote> quotes = song.getVerses()
+                .stream()
+                .flatMap(verse -> verse.getQuotes().stream())
+                .collect(Collectors.toList());
+
+        assertThat(randomQuote, notNullValue());
+        assertThat(randomQuote, isIn(quotes));
+    }
+
+    @Test
+    public void findQuotesByPhraseContainingIgnoreCaseTest() {
+        final Quote quote1 = new Quote("Some QUOTE! Next Phrase");
+        final Quote quote2 = new Quote("Another quote");
+        final Verse verse = new Verse(asList(quote1, quote2));
+        songRepository.save(generateSong()
+                .setVerses(singletonList(verse)));
+
+        final Page<Quote> page = quoteRepository.findQuotesByPhraseContainingIgnoreCase("some quote", new PageRequest(0, 10));
+        assertThat(page.getContent(), contains(quote1));
     }
 
     @Test
