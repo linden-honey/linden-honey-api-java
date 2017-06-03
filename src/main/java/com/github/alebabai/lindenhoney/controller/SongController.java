@@ -6,12 +6,15 @@ import com.github.alebabai.lindenhoney.domain.Verse;
 import com.github.alebabai.lindenhoney.repository.QuoteRepository;
 import com.github.alebabai.lindenhoney.repository.VerseRepository;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.hateoas.EntityLinks;
 import org.springframework.hateoas.ExposesResourceFor;
 import org.springframework.hateoas.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.Optional;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
@@ -33,7 +36,8 @@ public class SongController {
     @GetMapping("/songs/{songId}/quotes/search/random")
     @ResponseBody
     public Resource<Quote> getRandomQuoteFromSong(@PathVariable("songId") Integer songId) {
-        final Quote quote = quoteRepository.findRandomQuoteFromSong(songId);
+        final Quote quote = Optional.ofNullable(quoteRepository.findRandomQuoteFromSong(songId))
+                .orElseThrow(ResourceNotFoundException::new);
         return new Resource<>(
                 quote,
                 entityLinks.linkForSingleResource(Song.class, songId).withRel("song"),
@@ -44,7 +48,8 @@ public class SongController {
     @GetMapping("/songs/{songId}/verses/search/random")
     @ResponseBody
     public Resource<Verse> getRandomVerseFromSong(@PathVariable("songId") Integer songId) {
-        final Verse verse = verseRepository.findRandomVerseFromSong(songId);
+        final Verse verse = Optional.ofNullable(verseRepository.findRandomVerseFromSong(songId))
+                .orElseThrow(ResourceNotFoundException::new);
         return new Resource<>(
                 verse,
                 entityLinks.linkForSingleResource(Song.class, songId).withRel("song"),

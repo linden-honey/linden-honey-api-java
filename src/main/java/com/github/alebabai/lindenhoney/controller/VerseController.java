@@ -12,7 +12,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 @RepositoryRestController
-@RequestMapping(path = "api/verses/search")
+@RequestMapping(path = "/verses/search")
 public class VerseController {
 
     private final VerseRepository repository;
@@ -23,8 +23,8 @@ public class VerseController {
 
     @GetMapping("random")
     @ResponseBody
-    public Resource<Verse> getRandonVerse() {
+    public Resource<Verse> getRandomVerse() {
         final Verse verse = repository.findRandomVerse();
-        return new Resource<>(verse, linkTo(methodOn(this.getClass()).getRandonVerse()).withSelfRel());
+        return new Resource<>(verse, linkTo(methodOn(this.getClass()).getRandomVerse()).withSelfRel());
     }
 }

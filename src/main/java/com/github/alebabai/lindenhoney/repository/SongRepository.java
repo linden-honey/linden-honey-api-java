@@ -29,6 +29,6 @@ public interface SongRepository extends PagingAndSortingRepository<Song, Integer
     @Query(value = "SELECT * FROM SONG ORDER BY RANDOM() LIMIT 1", nativeQuery = true)
     Song findRandomSong();
 
-    @RestResource(path = "by-title", rel = "by-title")
+    @RestResource(path = "by-title", rel = "byTitle")
     Page<Song> findSongsByTitleContainingIgnoreCase(@Param("title") String title, Pageable pageable);
 }
