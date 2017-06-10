@@ -9,3 +9,10 @@ env:
   - LINDEN_HONEY_DB_URL=postgresql://localhost:5432/linden_honey_local LINDEN_HONEY_DB_USERNAME=postgres
 before_script:
   - psql -c 'create database linden_honey_local;' -U postgres
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
