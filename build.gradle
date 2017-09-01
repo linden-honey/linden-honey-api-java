@@ -1,21 +1,13 @@
-group = 'com.github.alebabai'
-version = '0.0.1-SNAPSHOT'
+import static org.gradle.api.tasks.wrapper.Wrapper.DistributionType.*
 
-buildscript {
-    ext {
-        springBootVersion = '1.5.3.RELEASE'
-    }
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
-    }
+plugins {
+    id 'java'
+    id 'idea'
+    id 'org.springframework.boot' version '1.5.6.RELEASE'
 }
 
-apply plugin: 'java'
-apply plugin: 'idea'
-apply plugin: 'org.springframework.boot'
+group = 'com.github.alebabai'
+version = '0.0.1-SNAPSHOT'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -31,8 +23,8 @@ bootRun {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '3.5'
-    distributionType = Wrapper.DistributionType.ALL
+    gradleVersion = '4.1'
+    distributionType = ALL
 }
 
 repositories {
@@ -50,11 +42,10 @@ dependencies {
 /**
  *  Other dependencies
  */
-    compileOnly 'org.projectlombok:lombok:1.16.16'
-    compile 'com.google.code.gson:gson:2.8.1'
-    compile 'org.apache.commons:commons-lang3:3.5'
+    compileOnly 'org.projectlombok:lombok:1.16.18'
+    compile 'org.apache.commons:commons-lang3:3.6'
     compile 'org.flywaydb:flyway-core:4.2.0'
-    runtime 'org.postgresql:postgresql:42.1.1'
+    runtime 'org.postgresql:postgresql:42.1.4'
 
 /**
  *  Test dependencies
