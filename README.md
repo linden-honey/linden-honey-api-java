@@ -1,11 +1,45 @@
-# Linden Honey - Spring Edition
+# Linden Honey Spring
 
-[![Build Status](https://travis-ci.org/linden-honey/linden-honey-spring.svg?branch=master)](https://travis-ci.org/linden-honey/linden-honey-spring)
+> RESTful Web Service powered by Spring Boot
+
+
+[![java se version][java-image]][java-url]
+[![build status][travis-image]][travis-url]
+[![release][release-image]][release-url]
+[![downloads][downloads-image]][release-url]
+[![license][license-image]][license-url]
+
+[java-image]: https://img.shields.io/badge/java-%3E%3D8-brightgreen.svg?style=flat-square
+[java-url]: http://www.oracle.com/technetwork/java/javase/downloads/index.html
+[release-image]: https://img.shields.io/github/release/linden-honey/linden-honey-book.svg?style=flat-square
+[release-url]: https://github.com/linden-honey/linden-honey-book/releases
+[downloads-image]: https://img.shields.io/github/downloads/linden-honey/linden-honey-spring/latest/total.svg?style=flat-square
+[downloads-url]: https://github.com/linden-honey/linden-honey-book/releases
+[travis-image]: https://img.shields.io/travis/linden-honey/linden-honey-book/master.svg?style=flat-square
+[travis-url]: https://travis-ci.org/linden-honey/linden-honey-book
+[license-image]: https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square
+[license-url]: https://github.com/linden-honey/linden-honey-book/blob/master/LICENSE
 
 REST API for the lyrics of __Yegor Letov__ and his post-punk/psychedelic rock band __Grazhdanskaya Oborona (Civil Defense)__
 
-## Heroku instance
+## Technologies
+
+* [Gradle](https://gradle.org/)
+* [Spring](https://spring.io/)
+* [PostgreSQL](https://www.postgresql.org/)
+
+## Usage
+
+Run project:
+```
+./gradlew bootRun
+```
+
+Build project artifact:
+```
+./gradlew build
+```
+
+## Application instance
 
 [https://linden-honey-spring.herokuapp.com](https://linden-honey-spring.herokuapp.com)
-
-![](images/logo.jpg)
