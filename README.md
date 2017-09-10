@@ -40,7 +40,7 @@ Run application:
 ./gradlew bootRun
 ```
 
-Run tests (required clean pre-configured database)
+Run tests (required clean pre-configured database):
 ```
 ./gradlew test
 ```
@@ -57,12 +57,12 @@ Build application artifacts (without tests):
 
 ### Docker
 
-Bootstrap project using docker-compose
+Bootstrap project using docker-compose:
 ```
 docker-compose up
 ```
 
-Stop and remove containers, networks, images, and volumes
+Stop and remove containers, networks, images, and volumes:
 ```
 docker-compose down
 ```
