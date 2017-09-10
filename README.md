@@ -10,14 +10,14 @@
 
 [java-image]: https://img.shields.io/badge/java-%3E%3D8-brightgreen.svg?style=flat-square
 [java-url]: http://www.oracle.com/technetwork/java/javase/downloads/index.html
-[release-image]: https://img.shields.io/github/release/linden-honey/linden-honey-book.svg?style=flat-square
-[release-url]: https://github.com/linden-honey/linden-honey-book/releases
+[release-image]: https://img.shields.io/github/release/linden-honey/linden-honey-spring.svg?style=flat-square
+[release-url]: https://github.com/linden-honey/linden-honey-spring/releases
 [downloads-image]: https://img.shields.io/github/downloads/linden-honey/linden-honey-spring/latest/total.svg?style=flat-square
-[downloads-url]: https://github.com/linden-honey/linden-honey-book/releases
-[travis-image]: https://img.shields.io/travis/linden-honey/linden-honey-book/master.svg?style=flat-square
-[travis-url]: https://travis-ci.org/linden-honey/linden-honey-book
+[downloads-url]: https://github.com/linden-honey/linden-honey-spring/releases
+[travis-image]: https://img.shields.io/travis/linden-honey/linden-honey-spring/master.svg?style=flat-square
+[travis-url]: https://travis-ci.org/linden-honey/linden-honey-spring
 [license-image]: https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square
-[license-url]: https://github.com/linden-honey/linden-honey-book/blob/master/LICENSE
+[license-url]: https://github.com/linden-honey/linden-honey-spring/blob/master/LICENSE
 
 REST API for the lyrics of __Yegor Letov__ and his post-punk/psychedelic rock band __Grazhdanskaya Oborona (Civil Defense)__
 
