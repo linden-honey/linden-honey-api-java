@@ -6,7 +6,7 @@ jdk:
 services:
   - postgresql
 env:
-  - LINDEN_HONEY_DB_URL=postgresql://localhost:5432/linden_honey_local?user=postgres&password=postgres
+  - LINDEN_HONEY_DB_URL=postgresql://localhost:5432/linden_honey_local?user=postgres
 before_script:
   - psql -c 'create database linden_honey_local;' -U postgres
 before_cache:
