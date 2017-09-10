@@ -3,7 +3,7 @@
 > RESTful Web Service powered by Spring Boot
 
 
-[![java se version][java-image]][java-url]
+[![java version][java-image]][java-url]
 [![build status][travis-image]][travis-url]
 [![release][release-image]][release-url]
 [![downloads][downloads-image]][release-url]
@@ -30,14 +30,41 @@ REST API for the lyrics of __Yegor Letov__ and his post-punk/psychedelic rock ba
 
 ## Usage
 
-Run project:
+### Local
+
+The following environment variables should be exported before running:
+* `LINDEN_HONEY_DB_URL`
+
+Run application:
 ```
 ./gradlew bootRun
 ```
 
-Build project artifact:
+Run tests (required clean pre-configured database)
+```
+./gradlew test
+```
+
+Build application artifact (with tests - required clean pre-configured database):
 ```
 ./gradlew build
+```
+
+Build application artifacts (without tests):
+```
+./gradlew build -x test
+```
+
+### Docker
+
+Bootstrap project using docker-compose
+```
+docker-compose up
+```
+
+Stop and remove containers, networks, images, and volumes
+```
+docker-compose down
 ```
 
 ## Application instance
