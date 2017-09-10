@@ -2,7 +2,6 @@
 
 > RESTful Web Service powered by Spring Boot
 
-
 [![java version][java-image]][java-url]
 [![build status][travis-image]][travis-url]
 [![release][release-image]][release-url]
