@@ -23,7 +23,7 @@ services:
     links:
      - db
     environment:
-     - LINDEN_HONEY_DB_URL=postgresql://db:5432/linden-honey?user=linden-honey&password=linden-honey
+     - LINDEN_HONEY_DB_URL=jdbc:postgresql://db:5432/linden-honey?user=linden-honey&password=linden-honey
 
 networks:
   linden-honey-spring-net:

@@ -5,7 +5,7 @@ linden_honey:
   app:
     name: Linden Honey
   db:
-    url: postgresql://localhost:5432/linden-honey?user=linden-honey&password=linden-honey
+    url: jdbc:postgresql://localhost:5432/linden-honey?user=linden-honey&password=linden-honey
 
 
 # ===============================
@@ -15,7 +15,7 @@ spring:
   application:
     name: ${linden_honey.app.name}
   datasource:
-    url: jdbc:${linden_honey.db.url}
+    url: ${linden_honey.db.url}
   jpa:
     show-sql: false
     hibernate:
