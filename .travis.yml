@@ -6,9 +6,9 @@ jdk:
 services:
   - postgresql
 env:
-  - LINDEN_HONEY_DB_URL=postgresql://localhost:5432/linden_honey_local?user=postgres
+  - LINDEN_HONEY_DB_URL=postgresql://localhost:5432/linden-honey?user=postgres
 before_script:
-  - psql -c 'create database linden_honey_local;' -U postgres
+  - psql -c 'create database linden-honey;' -U postgres
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/

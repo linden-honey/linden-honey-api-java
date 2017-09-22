@@ -6,7 +6,7 @@ plugins {
     id 'org.springframework.boot' version '1.5.6.RELEASE'
 }
 
-group = 'com.github.alebabai'
+group = 'com.github.lindenhoney'
 version = '0.0.1-SNAPSHOT'
 
 sourceCompatibility = 1.8

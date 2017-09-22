@@ -5,7 +5,7 @@ linden_honey:
   app:
     name: Linden Honey
   db:
-    url: postgresql://localhost:5433/linden_honey_local?user=linden_honey_local&password=linden_honey_local
+    url: postgresql://localhost:5432/linden-honey?user=linden-honey&password=linden-honey
 
 
 # ===============================
@@ -41,8 +41,7 @@ logging:
   level:
     com:
       github:
-        alebabai:
-          lindenhoney: DEBUG
+        lindenhoney: DEBUG
     org:
       springframework: INFO
       hibernate: ERROR
