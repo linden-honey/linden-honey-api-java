@@ -8,8 +8,8 @@ services:
      - POSTGRES_USER=linden-honey
      - POSTGRES_PASSWORD=linden-honey
      - POSTGRES_DB=linden-honey
-    expose:
-     - "5432"
+    ports:
+     - "5432:5432"
     networks:
       - linden-honey-spring-net
   app:
