@@ -5,15 +5,12 @@
 [![java version][java-image]][java-url]
 [![build status][travis-image]][travis-url]
 [![release][release-image]][release-url]
-[![downloads][downloads-image]][release-url]
 [![license][license-image]][license-url]
 
 [java-image]: https://img.shields.io/badge/java-%3E%3D8-brightgreen.svg?style=flat-square
 [java-url]: http://www.oracle.com/technetwork/java/javase/downloads/index.html
 [release-image]: https://img.shields.io/github/release/linden-honey/linden-honey-spring.svg?style=flat-square
 [release-url]: https://github.com/linden-honey/linden-honey-spring/releases
-[downloads-image]: https://img.shields.io/github/downloads/linden-honey/linden-honey-spring/latest/total.svg?style=flat-square
-[downloads-url]: https://github.com/linden-honey/linden-honey-spring/releases
 [travis-image]: https://img.shields.io/travis/linden-honey/linden-honey-spring/master.svg?style=flat-square
 [travis-url]: https://travis-ci.org/linden-honey/linden-honey-spring
 [license-image]: https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square
