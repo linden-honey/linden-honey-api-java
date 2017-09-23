@@ -56,6 +56,7 @@ public class VerseRepositoryTest {
                 .setVerses(asList(verse1, verse2)));
 
         final List<Verse> verses = verseRepository.findAllVersesFromSong(song.getId());
+
         assertThat(verses, contains(verse1, verse2));
     }
 }

@@ -17,7 +17,7 @@ spring:
   datasource:
     url: ${linden_honey.db.url}
   jpa:
-    show-sql: false
+    show-sql: true
     hibernate:
       ddl-auto: validate
     properties:
