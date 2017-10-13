@@ -1,5 +1,6 @@
 package com.github.lindenhoney.repository;
 
+import com.github.lindenhoney.domain.Quote;
 import com.github.lindenhoney.domain.Song;
 import com.github.lindenhoney.domain.Verse;
 import org.junit.Test;
@@ -27,11 +28,11 @@ public class SongRepositoryTest extends AbstractRepositoryTest<Song, Integer, So
 
     @Test
     public void findRandomSongTest() {
-        final Collection<Song> songs = (Collection<Song>) songRepository.save(generateEntities(MAX_ENTITIES_COUNT));
-        final Song randomSong = songRepository.findRandomSong();
+        Iterable<? extends Song> songs = songRepository.save(generateEntities(MAX_ENTITIES_COUNT));
+        Song randomSong = songRepository.findRandomSong();
 
         assertThat(randomSong, notNullValue());
-        assertThat(randomSong, isIn(songs));
+        assertThat(songs, contains(randomSong));
     }
 
     @Test
@@ -42,8 +43,8 @@ public class SongRepositoryTest extends AbstractRepositoryTest<Song, Integer, So
         song.setAlbum("new album");
         song.setAuthor("new author");
 
-        final Verse verse1 = generateVerse();
-        final Verse verse2 = generateVerse();
+        Verse verse1 = generateVerse();
+        Verse verse2 = generateVerse();
         song.setVerses(asList(verse1, verse2));
 
         song = repository.save(song);
@@ -65,6 +66,21 @@ public class SongRepositoryTest extends AbstractRepositoryTest<Song, Integer, So
         Song song = repository.save(generateEntity().setTitle("Some big title"));
 
         assertThat(repository.findSongsByTitleContainingIgnoreCase("some", new PageRequest(0, 1)).getContent(), contains(song));
+    }
+
+    @Test
+    public void findDistinctSongsByVersesQuotesPhraseContainingIgnoreCaseTest() {
+        Song song = repository.save(generateEntity());
+        String phrase = song.getVerses()
+                .stream()
+                .findAny()
+                .flatMap(verse -> verse.getQuotes()
+                        .stream()
+                        .findAny()
+                        .map(Quote::getPhrase))
+                .orElseThrow(() -> new IllegalStateException("Couldn't get phrase"));
+
+        assertThat(repository.findDistinctSongsByVersesQuotesPhraseContainingIgnoreCase(phrase, new PageRequest(0, 1)).getContent(), contains(song));
     }
 
 }

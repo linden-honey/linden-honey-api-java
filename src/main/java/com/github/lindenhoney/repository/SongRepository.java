@@ -31,4 +31,7 @@ public interface SongRepository extends PagingAndSortingRepository<Song, Integer
 
     @RestResource(path = "by-title", rel = "byTitle")
     Page<Song> findSongsByTitleContainingIgnoreCase(@Param("title") String title, Pageable pageable);
+
+    @RestResource(path = "by-phrase", rel = "phrase")
+    Page<Song> findDistinctSongsByVersesQuotesPhraseContainingIgnoreCase(@Param("phrase") String phrase, Pageable pageable);
 }
