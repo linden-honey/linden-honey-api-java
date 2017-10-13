@@ -7,7 +7,6 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 
-import java.util.Collection;
 import java.util.Collections;
 
 import static com.github.lindenhoney.util.EntityUtils.generateSong;
@@ -28,11 +27,11 @@ public class SongRepositoryTest extends AbstractRepositoryTest<Song, Integer, So
 
     @Test
     public void findRandomSongTest() {
-        Iterable<? extends Song> songs = songRepository.save(generateEntities(MAX_ENTITIES_COUNT));
+        Iterable<Song> songs = (Iterable<Song>) songRepository.save(generateEntities(MAX_ENTITIES_COUNT));
         Song randomSong = songRepository.findRandomSong();
 
         assertThat(randomSong, notNullValue());
-        assertThat(songs, contains(randomSong));
+        assertThat(songs, hasItem(randomSong));
     }
 
     @Test

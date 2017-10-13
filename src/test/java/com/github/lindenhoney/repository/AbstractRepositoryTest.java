@@ -26,7 +26,7 @@ import static org.hamcrest.Matchers.*;
 import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 
 @RunWith(SpringRunner.class)
-@DataJpaTest(showSql = false)
+@DataJpaTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 abstract public class AbstractRepositoryTest<T extends Persistable<ID>, ID extends Serializable, REPO extends PagingAndSortingRepository<T, ID>> {
 
