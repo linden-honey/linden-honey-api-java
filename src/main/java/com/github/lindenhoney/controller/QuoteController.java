@@ -26,6 +26,17 @@ public class QuoteController {
         this.asm = asm;
     }
 
+
+    @GetMapping("/quotes")
+    @ResponseBody
+    public ResourceSupport getQuotesResource() {
+        final ResourceSupport resource = new ResourceSupport();
+        resource.add(
+                linkTo(methodOn(this.getClass()).getSearchResource()).withRel("search")
+        );
+        return resource;
+    }
+
     @GetMapping("/quotes/search")
     @ResponseBody
     public ResourceSupport getSearchResource() {

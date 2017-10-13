@@ -22,6 +22,16 @@ public class VerseController {
         this.repository = repository;
     }
 
+    @GetMapping("/verses")
+    @ResponseBody
+    public ResourceSupport getVersesResource() {
+        final ResourceSupport resource = new ResourceSupport();
+        resource.add(
+                linkTo(methodOn(this.getClass()).getSearchResource()).withRel("search")
+        );
+        return resource;
+    }
+
     @GetMapping("/verses/search")
     @ResponseBody
     public ResourceSupport getSearchResource() {
