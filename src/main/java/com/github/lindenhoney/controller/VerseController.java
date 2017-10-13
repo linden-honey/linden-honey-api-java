@@ -2,17 +2,20 @@ package com.github.lindenhoney.controller;
 
 import com.github.lindenhoney.domain.Verse;
 import com.github.lindenhoney.repository.VerseRepository;
-import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.hateoas.ExposesResourceFor;
+import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.ResourceSupport;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
-@RepositoryRestController
+@RestController
+@RequestMapping(path = "/verses", produces = MediaTypes.HAL_JSON_VALUE)
 @ExposesResourceFor(Verse.class)
 public class VerseController {
 
@@ -22,7 +25,7 @@ public class VerseController {
         this.repository = repository;
     }
 
-    @GetMapping("/verses")
+    @GetMapping
     @ResponseBody
     public ResourceSupport getVersesResource() {
         final ResourceSupport resource = new ResourceSupport();
@@ -32,7 +35,7 @@ public class VerseController {
         return resource;
     }
 
-    @GetMapping("/verses/search")
+    @GetMapping("/search")
     @ResponseBody
     public ResourceSupport getSearchResource() {
         final ResourceSupport resource = new ResourceSupport();
@@ -43,7 +46,7 @@ public class VerseController {
         return resource;
     }
 
-    @GetMapping("/verses/search/random")
+    @GetMapping("/search/random")
     @ResponseBody
     public Resource<Verse> getRandomVerse() {
         final Verse verse = repository.findRandomVerse();
