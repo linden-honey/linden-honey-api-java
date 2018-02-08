@@ -57,7 +57,7 @@ public class SongRepositoryTest extends AbstractRepositoryTest<Song, Integer, So
         song.setVerses(Collections.emptyList());
         song = repository.save(song);
 
-        assertThat(repository.findById(song.getId()).getVerses(), emptyCollectionOf(Verse.class));
+        assertThat(repository.findById(song.getId()).map(Song::getVerses).orElse(null), emptyCollectionOf(Verse.class));
     }
 
     @Test
