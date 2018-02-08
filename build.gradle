@@ -1,27 +1,38 @@
 import static org.gradle.api.tasks.wrapper.Wrapper.DistributionType.*
 
-plugins {
-    id 'java'
-    id 'idea'
-    id 'org.springframework.boot' version '1.5.10.RELEASE'
+buildscript {
+    ext {
+        springBootVersion = '2.0.0.RC1'
+    }
+
+    repositories {
+        mavenCentral()
+        maven { url "https://repo.spring.io/snapshot" }
+        maven { url "https://repo.spring.io/milestone" }
+    }
+
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+    }
 }
 
+apply plugin: 'idea'
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
 group = 'com.github.lindenhoney'
-version = '0.0.1-SNAPSHOT'
+version = '1.1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-jar {
-    baseName = this.name
+springBoot {
+    buildInfo()
 }
 
-bootRepackage  {
-    executable = true
-}
-
-bootRun {
-    addResources = true
+bootJar {
+    launchScript()
 }
 
 task wrapper(type: Wrapper) {
@@ -31,6 +42,8 @@ task wrapper(type: Wrapper) {
 
 repositories {
     mavenCentral()
+    maven { url "https://repo.spring.io/snapshot" }
+    maven { url "https://repo.spring.io/milestone" }
 }
 
 dependencies {

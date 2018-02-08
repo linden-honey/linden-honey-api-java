@@ -43,18 +43,18 @@ abstract public class AbstractRepositoryTest<T extends Persistable<ID>, ID exten
 
     protected List<? extends T> generateEntities(int maxEntitiesCount) {
         return IntStream
-                .rangeClosed(TestUtils.MIN_ENTITIES_COUNT, TestUtils.getRandomInteger(TestUtils.MAX_ENTITIES_COUNT))
+                .rangeClosed(TestUtils.MIN_ENTITIES_COUNT, TestUtils.getRandomInteger(maxEntitiesCount))
                 .parallel()
                 .mapToObj(it -> generateEntity())
                 .collect(Collectors.toList());
     }
 
     protected Sort generateSort() {
-        return new Sort(getRandomFieldName());
+        return Sort.by(getRandomFieldName());
     }
 
     protected Pageable generatePageable() {
-        return new PageRequest(1, TestUtils.getRandomInteger(TestUtils.MAX_ENTITIES_COUNT));
+        return PageRequest.of(1, TestUtils.getRandomInteger(TestUtils.MAX_ENTITIES_COUNT));
     }
 
     protected List<String> getFieldsNames() {
@@ -72,7 +72,7 @@ abstract public class AbstractRepositoryTest<T extends Persistable<ID>, ID exten
     @Rollback
     public void initialization() {
         this.entity = generateEntity();
-        this.entities = generateEntities(TestUtils.getRandomInteger(TestUtils.MAX_ENTITIES_COUNT));
+        this.entities = generateEntities(TestUtils.MAX_ENTITIES_COUNT);
         this.sort = generateSort();
         this.pageable = generatePageable();
         this.columnNames = getFieldsNames();
@@ -90,20 +90,20 @@ abstract public class AbstractRepositoryTest<T extends Persistable<ID>, ID exten
     @Test
     public void deleteEntityByIdTest() {
         final ID savedId = repository.save(entity).getId();
-        repository.delete(savedId);
+        repository.deleteById(savedId);
 
-        assertThat(repository.exists(savedId), is(false));
+        assertThat(repository.existsById(savedId), is(false));
     }
 
     @Test
     public void deleteSequenceOfEntitiesTest() {
-        final Iterable<? extends T> saved = repository.save(entities);
+        final Iterable<? extends T> saved = repository.saveAll(entities);
         final List<ID> ids = StreamSupport.stream(saved.spliterator(), true)
                 .map(Persistable::getId)
                 .collect(Collectors.toList());
-        repository.delete(saved);
+        repository.deleteAll(saved);
 
-        assertThat(repository.findAll(ids), emptyIterable());
+        assertThat(repository.findAllById(ids), emptyIterable());
     }
 
     @Test
@@ -111,7 +111,7 @@ abstract public class AbstractRepositoryTest<T extends Persistable<ID>, ID exten
         final T saved = repository.save(entity);
         repository.delete(saved);
 
-        assertThat(repository.exists(saved.getId()), is(false));
+        assertThat(repository.existsById(saved.getId()), is(false));
     }
 
     @Test
@@ -126,30 +126,30 @@ abstract public class AbstractRepositoryTest<T extends Persistable<ID>, ID exten
     public void entityExistenceByIdTest() {
         final T saved = repository.save(entity);
 
-        assertThat(repository.exists(saved.getId()), is(true));
+        assertThat(repository.existsById(saved.getId()), is(true));
     }
 
     @Test
     public void findAllEntitiesTest() {
-        final Iterable<? extends T> saved = repository.save(entities);
+        final Iterable<? extends T> saved = repository.saveAll(entities);
 
         assertThat(repository.findAll(), is(saved));
     }
 
     @Test
     public void findAllEntitiesByIds() {
-        final Iterable<? extends T> saved = repository.save(entities);
+        final Iterable<? extends T> saved = repository.saveAll(entities);
         final List<ID> ids = StreamSupport.stream(saved.spliterator(), true)
                 .map(Persistable::getId)
                 .collect(Collectors.toList());
-        final Iterable<T> found = repository.findAll(ids);
+        final Iterable<T> found = repository.findAllById(ids);
 
         assertThat(found, is(saved));
     }
 
     @Test
     public void findAllEntitiesByPageableTest() {
-        repository.save(entities);
+        repository.saveAll(entities);
         final Page<T> found = repository.findAll(pageable);
 
         assertThat(found.getTotalPages() <= entities.size(), is(true));
@@ -157,23 +157,23 @@ abstract public class AbstractRepositoryTest<T extends Persistable<ID>, ID exten
 
     @Test
     public void findAllEntitiesBySortTest() {
-        repository.save(entities);
+        repository.saveAll(entities);
         final Iterable<T> found = repository.findAll(sort);
 
         assertThat(found, not(emptyIterable()));
     }
 
     @Test
-    public void findOneEntityByIdTest() {
+    public void findByIdEntityByIdTest() {
         final T saved = repository.save(entity);
-        final T found = repository.findOne(entity.getId());
+        final T found = repository.findById(entity.getId()).orElse(null);
 
         assertThat(saved, is(found));
     }
 
     @Test
     public void saveSequenceOfEntitiesTest() {
-        final Iterable<? extends T> saved = repository.save(entities);
+        final Iterable<? extends T> saved = repository.saveAll(entities);
 
         assertThat(repository.findAll(), is(saved));
     }
@@ -182,13 +182,13 @@ abstract public class AbstractRepositoryTest<T extends Persistable<ID>, ID exten
     public void saveOneEntityTest() {
         final T saved = repository.save(entity);
 
-        assertThat(repository.findOne(saved.getId()), is(saved));
+        assertThat(repository.findById(saved.getId()), is(saved));
     }
 
     @Test
     public void saveOneEntityAndFlushTest() {
         final T saved = repository.save(entity);
 
-        assertThat(repository.findOne(saved.getId()), is(saved));
+        assertThat(repository.findById(saved.getId()), is(saved));
     }
 }

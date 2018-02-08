@@ -27,7 +27,7 @@ public class SongRepositoryTest extends AbstractRepositoryTest<Song, Integer, So
 
     @Test
     public void findRandomSongTest() {
-        Iterable<Song> songs = (Iterable<Song>) songRepository.save(generateEntities(MAX_ENTITIES_COUNT));
+        Iterable<Song> songs = (Iterable<Song>) songRepository.saveAll(generateEntities(MAX_ENTITIES_COUNT));
         Song randomSong = songRepository.findRandomSong();
 
         assertThat(randomSong, notNullValue());
@@ -48,7 +48,7 @@ public class SongRepositoryTest extends AbstractRepositoryTest<Song, Integer, So
 
         song = repository.save(song);
 
-        assertThat(song, samePropertyValuesAs(repository.findOne(song.getId())));
+        assertThat(song, samePropertyValuesAs(repository.findById(song.getId())));
     }
 
     @Test
@@ -57,14 +57,14 @@ public class SongRepositoryTest extends AbstractRepositoryTest<Song, Integer, So
         song.setVerses(Collections.emptyList());
         song = repository.save(song);
 
-        assertThat(repository.findOne(song.getId()).getVerses(), emptyCollectionOf(Verse.class));
+        assertThat(repository.findById(song.getId()).getVerses(), emptyCollectionOf(Verse.class));
     }
 
     @Test
     public void findSongsByTitleContainingIgnoreCaseTest() {
         Song song = repository.save(generateEntity().setTitle("Some big title"));
 
-        assertThat(repository.findSongsByTitleContainingIgnoreCase("some", new PageRequest(0, 1)).getContent(), contains(song));
+        assertThat(repository.findSongsByTitleContainingIgnoreCase("some", PageRequest.of(0, 1)).getContent(), contains(song));
     }
 
     @Test
@@ -79,7 +79,7 @@ public class SongRepositoryTest extends AbstractRepositoryTest<Song, Integer, So
                         .map(Quote::getPhrase))
                 .orElseThrow(() -> new IllegalStateException("Couldn't get phrase"));
 
-        assertThat(repository.findDistinctSongsByVersesQuotesPhraseContainingIgnoreCase(phrase, new PageRequest(0, 1)).getContent(), contains(song));
+        assertThat(repository.findDistinctSongsByVersesQuotesPhraseContainingIgnoreCase(phrase, PageRequest.of(0, 1)).getContent(), contains(song));
     }
 
 }

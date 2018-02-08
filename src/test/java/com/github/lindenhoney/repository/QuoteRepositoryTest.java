@@ -67,8 +67,8 @@ public class QuoteRepositoryTest {
         songRepository.save(EntityUtils.generateSong()
                 .setVerses(singletonList(verse)));
 
-        final Page<Quote> page = quoteRepository.findQuotesByPhrase("some quote", new PageRequest(0, 10));
-        final Page<Quote> emptyPage = quoteRepository.findQuotesByPhrase("random phrase", new PageRequest(0, 10));
+        final Page<Quote> page = quoteRepository.findQuotesByPhrase("some quote", PageRequest.of(0, 10));
+        final Page<Quote> emptyPage = quoteRepository.findQuotesByPhrase("random phrase", PageRequest.of(0, 10));
 
         assertThat(page.getContent(), contains(quote1));
         assertThat(emptyPage.hasContent(), is(false));
