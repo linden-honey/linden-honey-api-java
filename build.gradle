@@ -3,19 +3,21 @@ import static org.gradle.api.tasks.wrapper.Wrapper.DistributionType.*
 plugins {
     id 'java'
     id 'idea'
-    id 'org.springframework.boot' version '1.5.7.RELEASE'
+    id 'org.springframework.boot' version '1.5.10.RELEASE'
 }
 
 group = 'com.github.lindenhoney'
-version = '0.0.1-SNAPSHOT'
+version = '1.1'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 jar {
     baseName = this.name
-    group = this.group
-    version = this.version
+}
+
+bootRepackage  {
+    executable = true
 }
 
 bootRun {
@@ -23,7 +25,7 @@ bootRun {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '4.2.1'
+    gradleVersion = '4.5.1'
     distributionType = ALL
 }
 
@@ -42,10 +44,10 @@ dependencies {
 /**
  *  Other dependencies
  */
-    compileOnly 'org.projectlombok:lombok:1.16.18'
-    compile 'org.apache.commons:commons-lang3:3.6'
-    compile 'org.flywaydb:flyway-core:4.2.0'
-    runtime 'org.postgresql:postgresql:42.1.4'
+    compileOnly 'org.projectlombok:lombok'
+    compile 'org.apache.commons:commons-lang3:3.7'
+    compile 'org.flywaydb:flyway-core:5.0.7'
+    runtime 'org.postgresql:postgresql:42.2.1'
 
 /**
  *  Test dependencies
