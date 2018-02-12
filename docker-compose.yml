@@ -2,29 +2,31 @@ version: "3"
 
 services:
   db:
-    container_name: linden-honey-spring-db
-    image: "postgres:latest"
-    environment:
-     - POSTGRES_USER=linden-honey
-     - POSTGRES_PASSWORD=linden-honey
-     - POSTGRES_DB=linden-honey
+    container_name: linden-honey-db
+    image: "mongo:latest"
     ports:
-     - "5432:5432"
+     - "27017:27017"
+    volumes:
+        - linden-honey-db-data:/data/db
     networks:
-      - linden-honey-spring-net
+      - linden-honey-net
   app:
-    container_name: linden-honey-spring-app
-    image: lindenhoney/linden-honey-spring
+    container_name: linden-honey-app
+    image: lindenhoney/linden-honey
     build: .
     ports:
      - "8080:8080"
     networks:
-      - linden-honey-spring-net
+      - linden-honey-net
     links:
      - db
     environment:
-     - LINDEN_HONEY_DB_URL=jdbc:postgresql://db:5432/linden-honey?user=linden-honey&password=linden-honey
+     - LINDEN_HONEY_DB_URL=mongodb://db:27017/linden-honey
+     - LINDEN_HONEY_APP_PROFILES=dev
+
+volumes:
+  linden-honey-db-data:
 
 networks:
-  linden-honey-spring-net:
+  linden-honey-net:
     driver: bridge
