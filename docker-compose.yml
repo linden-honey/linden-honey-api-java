@@ -1,28 +1,32 @@
-version: "3"
-
+version: '3'
 services:
   db:
     container_name: linden-honey-db
-    image: "mongo:latest"
+    image: mongo:latest
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=linden-honey
+      - MONGO_INITDB_ROOT_PASSWORD=linden-honey
+      - MONGO_INITDB_DATABASE=linden-honey
     ports:
-     - "27017:27017"
+      - 27017:27017
     volumes:
-        - linden-honey-db-data:/data/db
+      - linden-honey-db-data:/data/db
     networks:
       - linden-honey-net
+    command: mongoDb linden-honey
   app:
     container_name: linden-honey-app
     image: lindenhoney/linden-honey
     build: .
+    environment:
+     - LINDEN_HONEY_DB_URL=mongodb://linden-honey:linden-honey@db:27017/linden-honey
+     - LINDEN_HONEY_APP_PROFILES=dev
     ports:
-     - "8080:8080"
+      - 8080:8080
     networks:
       - linden-honey-net
     links:
      - db
-    environment:
-     - LINDEN_HONEY_DB_URL=mongodb://db:27017/linden-honey
-     - LINDEN_HONEY_APP_PROFILES=dev
 
 volumes:
   linden-honey-db-data:

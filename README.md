@@ -36,7 +36,7 @@ Run application:
 $ ./gradlew bootRun
 ```
 
-Run tests (required clean pre-configured database):
+Run tests (required clean pre-configured database, e.g. with docker):
 ```bash
 $ ./gradlew test
 ```
@@ -56,6 +56,11 @@ $ ./gradlew build -x test
 Bootstrap project using docker-compose:
 ```bash
 $ docker-compose up
+```
+
+Bootstrap database using docker-compose:
+```bash
+$ docker-compose up db
 ```
 
 Stop and remove containers, networks, and volumes:
