@@ -5,7 +5,6 @@ linden-honey:
   app:
     name: Linden Honey
     port: 8080
-    profiles: dev
   db:
     url: mongodb://linden-honey:linden-honey@localhost:27017/linden-honey
 
@@ -22,7 +21,7 @@ server:
 # ===============================
 spring:
   profiles:
-    active: ${linden-honey.app.profiles}
+    active: dev
   application:
     name: ${linden-honey.app.name}
   data:
