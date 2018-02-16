@@ -6,7 +6,7 @@ jdk:
 services:
   - mongodb
 env:
-  - linden-honey_DB_URL=linden-honey:linden-honey@localhost:27017/linden-honey
+  - linden-honey_DB_URI=linden-honey:linden-honey@localhost:27017/linden-honey
 before_script:
   - sleep 30
   - mongo linden-honey --eval 'db.createUser({user:"linden-honey",pwd:"linden-honey",roles:["readWrite"]});'

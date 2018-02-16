@@ -6,7 +6,10 @@ linden-honey:
     name: Linden Honey
     port: 8080
   db:
-    url: mongodb://linden-honey:linden-honey@localhost:27017/linden-honey
+    uri: mongodb://linden-honey:linden-honey@localhost:27017/linden-honey
+    migration:
+      enabled: true
+      scan-package: com.github.lindenhoney.migration
 
 
 # ===============================
@@ -26,7 +29,7 @@ spring:
     name: ${linden-honey.app.name}
   data:
     mongodb:
-      uri: ${linden-honey.db.url}
+      uri: ${linden-honey.db.uri}
 
 
 # ===============================
