@@ -2,18 +2,17 @@ version: '3'
 services:
   db:
     container_name: linden-honey-db
-    image: mongo:latest
+    image: bitnami/mongodb:latest
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=linden-honey
-      - MONGO_INITDB_ROOT_PASSWORD=linden-honey
-      - MONGO_INITDB_DATABASE=linden-honey
+      - MONGODB_USERNAME=linden-honey
+      - MONGODB_PASSWORD=linden-honey
+      - MONGODB_DATABASE=linden-honey
     ports:
       - 27017:27017
     volumes:
       - linden-honey-db-data:/data/db
     networks:
       - linden-honey-net
-    command: mongoDb linden-honey
   app:
     container_name: linden-honey-app
     image: lindenhoney/linden-honey
