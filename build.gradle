@@ -65,6 +65,9 @@ dependencies {
  */
     compileOnly 'org.projectlombok:lombok'
     compile 'org.apache.commons:commons-lang3:3.7'
+    compile 'com.github.mongobee:mongobee:0.13', {
+        exclude group: 'org.mongodb', module: 'mongo-java-driver'
+    }
 
 /**
  *  Test dependencies
