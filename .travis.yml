@@ -6,9 +6,10 @@ jdk:
 services:
   - mongodb
 env:
-  - LINDEN_HONEY_DB_URL=linden_honey:linden_honey@localhost:27017/linden_honey
+  - linden-honey_DB_URL=linden-honey:linden-honey@localhost:27017/linden-honey
 before_script:
-  - mongo linden_honey --eval 'db.createUser({user:"linden_honey",pwd:"linden_honey",roles:["readWrite"]});'
+  - sleep 30
+  - mongo linden-honey --eval 'db.createUser({user:"linden-honey",pwd:"linden-honey",roles:["readWrite"]});'
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/

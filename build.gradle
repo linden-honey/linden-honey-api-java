@@ -40,6 +40,13 @@ task wrapper(type: Wrapper) {
     distributionType = ALL
 }
 
+test {
+    testLogging {
+        events "passed", "skipped", "failed"
+        exceptionFormat "short"
+    }
+}
+
 repositories {
     mavenCentral()
     maven { url "https://repo.spring.io/snapshot" }
