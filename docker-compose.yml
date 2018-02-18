@@ -10,7 +10,7 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - linden-honey-db-data:/data/db
+      - linden-honey-db-data:/bitnami
     networks:
       - linden-honey-net
   app:
