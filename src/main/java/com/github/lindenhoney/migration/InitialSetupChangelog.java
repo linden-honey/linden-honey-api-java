@@ -18,7 +18,7 @@ public class InitialSetupChangelog {
     @Profile("initial-data")
     @ChangeSet(order = "001", id = "initial-data", author = "Alexander Babai")
     public void loadData(MongoTemplate mongoTemplate, Environment environment){
-        final String dataUrl = environment.getRequiredProperty("linden-honey.db.migration.initial-data.url");
+        final String dataUrl = environment.getRequiredProperty("linden-honey.db.migration.initial-data-url");
         log.debug("Loading data from {}", dataUrl);
         WebClient.create(dataUrl)
                 .get()

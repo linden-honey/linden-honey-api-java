@@ -10,8 +10,7 @@ linden-honey:
     migration:
       enabled: true
 #      scan-package: com.github.lindenhoney.migration
-#      initial-data:
-#        url: https://sons-db/all.json
+#      initial-data-url: https://sons-db/all.json
 
 
 # ===============================
