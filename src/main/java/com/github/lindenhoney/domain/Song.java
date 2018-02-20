@@ -18,7 +18,7 @@ import java.util.List;
 @Accessors(chain = true)
 @EqualsAndHashCode(exclude = {"verses"})
 @ToString(exclude = {"verses"})
-@Document
+@Document(collection = "songs")
 public class Song {
 
     @Id
