@@ -22,7 +22,7 @@ REST API for the lyrics of __Yegor Letov__ and his post-punk/psychedelic rock ba
 
 * [Gradle](https://gradle.org/)
 * [Spring](https://spring.io/)
-* [PostgreSQL](https://www.postgresql.org/)
+* [MongoDB](https://www.mongodb.com/)
 
 ## Usage
 
@@ -32,35 +32,40 @@ The following environment variables should be exported before running:
 * `LINDEN_HONEY_DB_URL`
 
 Run application:
-```
-./gradlew bootRun
+```bash
+$ ./gradlew bootRun
 ```
 
-Run tests (required clean pre-configured database):
-```
-./gradlew test
+Run tests (required clean pre-configured database, e.g. with docker):
+```bash
+$ ./gradlew test
 ```
 
 Build application artifact (with tests - required clean pre-configured database):
-```
-./gradlew build
+```bash
+$ ./gradlew build
 ```
 
 Build application artifacts (without tests):
-```
-./gradlew build -x test
+```bash
+$ ./gradlew build -x test
 ```
 
 ### Docker
 
 Bootstrap project using docker-compose:
-```
-docker-compose up
+```bash
+$ docker-compose up
 ```
 
-Stop and remove containers, networks, images, and volumes:
+Bootstrap database using docker-compose:
+```bash
+$ docker-compose up db
 ```
-docker-compose down
+
+Stop and remove containers, networks, and volumes:
+```bash
+$ docker-compose down -v
 ```
 
 ## Application instance

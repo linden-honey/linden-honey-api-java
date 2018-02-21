@@ -1,37 +1,36 @@
 # ===============================
-# [ TG2VK Properties ]
+# [ Linden Honey Properties ]
 # ===============================
-linden_honey:
+linden-honey:
   app:
     name: Linden Honey
+    port: 8080
   db:
-    url: jdbc:postgresql://localhost:5432/linden-honey?user=linden-honey&password=linden-honey
+    uri: mongodb://linden-honey:linden-honey@localhost:27017/linden-honey
+    migration:
+      enabled: true
+#      scan-package: com.github.lindenhoney.migration
+#      initial-data-url: https://sons-db/all.json
+
+
+# ===============================
+# [ Server Properties ]
+# ===============================
+server:
+  port: ${linden-honey.app.port}
 
 
 # ===============================
 # [ Spring Properties ]
 # ===============================
 spring:
+  profiles:
+    active: dev
   application:
-    name: ${linden_honey.app.name}
-  datasource:
-    url: ${linden_honey.db.url}
-  jpa:
-    show-sql: true
-    hibernate:
-      ddl-auto: validate
-    properties:
-      hibernate:
-        id:
-          new_generator_mappings: true
-
-
-# ===============================
-# [ Flyway Properties ]
-# ===============================
-flyway:
-  enabled: true
-  locations: classpath:db/migration
+    name: ${linden-honey.app.name}
+  data:
+    mongodb:
+      uri: ${linden-honey.db.uri}
 
 
 # ===============================
@@ -44,5 +43,3 @@ logging:
         lindenhoney: DEBUG
     org:
       springframework: INFO
-      hibernate: ERROR
-      flywaydb: INFO

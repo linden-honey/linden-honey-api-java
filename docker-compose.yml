@@ -1,30 +1,35 @@
-version: "3"
-
+version: '3'
 services:
   db:
-    container_name: linden-honey-spring-db
-    image: "postgres:latest"
+    container_name: linden-honey-db
+    image: bitnami/mongodb:latest
     environment:
-     - POSTGRES_USER=linden-honey
-     - POSTGRES_PASSWORD=linden-honey
-     - POSTGRES_DB=linden-honey
+      - MONGODB_USERNAME=linden-honey
+      - MONGODB_PASSWORD=linden-honey
+      - MONGODB_DATABASE=linden-honey
     ports:
-     - "5432:5432"
+      - 27017:27017
+    volumes:
+      - linden-honey-db-data:/bitnami
     networks:
-      - linden-honey-spring-net
+      - linden-honey-net
   app:
-    container_name: linden-honey-spring-app
-    image: lindenhoney/linden-honey-spring
+    container_name: linden-honey-app
+    image: lindenhoney/linden-honey
     build: .
+    environment:
+     - LINDEN_HONEY_DB_URI=mongodb://linden-honey:linden-honey@db:27017/linden-honey
+     - LINDEN_HONEY_APP_PROFILES=dev
     ports:
-     - "8080:8080"
+      - 8080:8080
     networks:
-      - linden-honey-spring-net
+      - linden-honey-net
     links:
      - db
-    environment:
-     - LINDEN_HONEY_DB_URL=jdbc:postgresql://db:5432/linden-honey?user=linden-honey&password=linden-honey
+
+volumes:
+  linden-honey-db-data:
 
 networks:
-  linden-honey-spring-net:
+  linden-honey-net:
     driver: bridge
