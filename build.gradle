@@ -1,10 +1,6 @@
 import static org.gradle.api.tasks.wrapper.Wrapper.DistributionType.*
 
 buildscript {
-    ext {
-        springBootVersion = '2.0.0.RC1'
-    }
-
     repositories {
         mavenCentral()
         maven { url "https://repo.spring.io/snapshot" }
@@ -13,6 +9,7 @@ buildscript {
 
     dependencies {
         classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+        classpath "org.junit.platform:junit-platform-gradle-plugin:${junitPlatformVersion}"
     }
 }
 
@@ -20,6 +17,7 @@ apply plugin: 'idea'
 apply plugin: 'java'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
+apply plugin: 'org.junit.platform.gradle.plugin'
 
 group = 'com.github.lindenhoney'
 version = '1.1'
@@ -64,14 +62,21 @@ dependencies {
  *  Other dependencies
  */
     compileOnly 'org.projectlombok:lombok'
-    compile 'org.apache.commons:commons-lang3:3.7'
-    compile 'com.github.mongobee:mongobee:0.13', {
+    compile "org.apache.commons:commons-lang3:${apacheCommonsVersion}"
+
+    compile "com.github.mongobee:mongobee:${mongobeeVersion}", {
         exclude group: 'org.mongodb', module: 'mongo-java-driver'
     }
+
+    compile "org.jsoup:jsoup:${jsoupVersion}"
 
 /**
  *  Test dependencies
  */
-    testCompile 'org.springframework.boot:spring-boot-starter-test'
+    testCompile 'org.springframework.boot:spring-boot-starter-test', {
+        exclude group: 'junit', module: 'junit'
+    }
+    testCompile "org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}"
+    testRuntime "org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}"
     testCompile 'io.projectreactor:reactor-test'
 }
