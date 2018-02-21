@@ -20,9 +20,8 @@ public class ParserTest {
         final String html = "Some phrase";
         final Quote quote = Parser.parseQuote(html);
         assertThat(quote)
-                .isNotNull()
                 .extracting(Quote::getPhrase)
-                .isEqualTo("Some phrase");
+                .containsExactly("Some phrase");
     }
 
     @Test
@@ -34,19 +33,19 @@ public class ParserTest {
         assertThat(quote)
                 .isNotNull()
                 .extracting(Quote::getPhrase)
-                .isEqualTo("Some text with trailing spaces");
+                .containsExactly("Some text with trailing spaces");
     }
 
     @Test
     @Tag("quote")
     @DisplayName("Should convert all html formatting tags to regular text")
     public void parseQuoteWithHtmlFormattingTagsTest() {
-        final String html = "<strong>Some</strong> text<br\\> with html<br\\> <i>formatting</i> <b>tags</b>";
+        final String html = "<strong>Some</strong> text<br> with html<br> <i>formatting</i> <b>tags</b>";
         final Quote quote = Parser.parseQuote(html);
         assertThat(quote)
                 .isNotNull()
                 .extracting(Quote::getPhrase)
-                .isEqualTo("Some text with html formatting tags");
+                .containsExactly("Some text with html formatting tags");
     }
 
     @Test
@@ -96,6 +95,7 @@ public class ParserTest {
                 + "Some phrase 4";
         final List<Verse> verses = Parser.parseLyrics(html);
         assertThat(verses).isNotEmpty();
+
         assertThat(verses.stream()
                 .flatMap(verse -> verse.getQuotes()
                         .stream()
