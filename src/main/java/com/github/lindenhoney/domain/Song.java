@@ -22,7 +22,7 @@ import java.util.List;
 public class Song {
 
     @Id
-    private Integer id;
+    private Long id;
 
     @TextIndexed
     @NotNull(message = "Title is required!")
@@ -32,6 +32,7 @@ public class Song {
 
     private String album;
 
+    @NotNull(message = "Verses are required")
     private List<Verse> verses = new ArrayList<>();
 
     public Song(String title, String author, String album, List<Verse> verses) {

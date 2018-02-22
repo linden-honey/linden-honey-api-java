@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +17,7 @@ import java.util.List;
 @ToString(exclude = {"quotes"})
 public class Verse {
 
+    @NotNull(message = "Quotes are required")
     private List<Quote> quotes = new ArrayList<>();
 
     public Verse(List<Quote> quotes) {
