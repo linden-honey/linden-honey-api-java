@@ -10,6 +10,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @Accessors(chain = true)
 public class Quote {
+    //TODO refine properties validation (for all cases, persistence and parser)
 
     @NotNull(message = "Phrase is required!")
     private String phrase;

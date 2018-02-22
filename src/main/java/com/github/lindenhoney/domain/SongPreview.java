@@ -12,6 +12,7 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @Accessors(chain = true)
 public class SongPreview {
+    //TODO refine properties validation (for all cases, persistence and parser)
 
     @NotNull(message = "Id is required")
     private Long id;

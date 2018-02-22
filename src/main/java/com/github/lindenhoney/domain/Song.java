@@ -20,6 +20,7 @@ import java.util.List;
 @ToString(exclude = {"verses"})
 @Document(collection = "songs")
 public class Song {
+    //TODO refine properties validation (for all cases, persistence and parser)
 
     @Id
     private Long id;
