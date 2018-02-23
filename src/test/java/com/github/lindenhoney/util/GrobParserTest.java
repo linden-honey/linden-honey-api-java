@@ -21,7 +21,7 @@ class GrobParserTest {
     @DisplayName("Should return quote object with a phrase string")
     void parseQuoteTest() {
         final String html = "Some phrase";
-        final Quote quote = GrobParser.parseQuote(html);
+        final Quote quote = GrobParser.parseQuote(html).block();
         assertThat(quote)
                 .extracting(Quote::getPhrase)
                 .containsExactly("Some phrase");
@@ -32,7 +32,7 @@ class GrobParserTest {
     @DisplayName("Should replace all trailing spaces in a phrase")
     void parseQuoteWithTrailingSpacesTest() {
         final String html = "    Some text    with    trailing spaces  ";
-        final Quote quote = GrobParser.parseQuote(html);
+        final Quote quote = GrobParser.parseQuote(html).block();
         assertThat(quote)
                 .isNotNull()
                 .extracting(Quote::getPhrase)
@@ -44,7 +44,7 @@ class GrobParserTest {
     @DisplayName("Should convert all html formatting tags to regular text")
     void parseQuoteWithHtmlFormattingTagsTest() {
         final String html = "<strong>Some</strong> text<br> with html<br> <i>formatting</i> <b>tags</b>";
-        final Quote quote = GrobParser.parseQuote(html);
+        final Quote quote = GrobParser.parseQuote(html).block();
         assertThat(quote)
                 .isNotNull()
                 .extracting(Quote::getPhrase)
@@ -56,7 +56,7 @@ class GrobParserTest {
     @DisplayName("Should return verse object with a quotes array")
     void parseVerseTest() {
         final String html = "Some phrase";
-        final Verse verse = GrobParser.parseVerse(html);
+        final Verse verse = GrobParser.parseVerse(html).block();
         assertThat(verse).isNotNull();
         assertThat(verse.getQuotes())
                 .extracting(Quote::getPhrase)
@@ -73,7 +73,7 @@ class GrobParserTest {
                 + "Some phrase 2"
                 + "<br>"
                 + "Some phrase 3";
-        final Verse verse = GrobParser.parseVerse(html);
+        final Verse verse = GrobParser.parseVerse(html).block();
         assertThat(verse).isNotNull();
         assertThat(verse.getQuotes())
                 .extracting(Quote::getPhrase)
@@ -96,7 +96,7 @@ class GrobParserTest {
                 + "Some phrase 3"
                 + "<br> <br>"
                 + "Some phrase 4";
-        final List<Verse> verses = GrobParser.parseLyrics(html);
+        final List<Verse> verses = GrobParser.parseLyrics(html).collectList().block();
         assertThat(verses).isNotEmpty();
         assertThat(verses.stream()
                 .flatMap(verse -> verse.getQuotes()
@@ -114,7 +114,6 @@ class GrobParserTest {
     @Test
     @Tag("preview")
     @DisplayName("Should return array with preview objects")
-
     void parsePreviews() {
         final String html = ""
                 + "<ul id=\"abc_list\">"
@@ -122,7 +121,7 @@ class GrobParserTest {
                 + "<li><a href=\"\">Unknown</a></li>"
                 + "<li><a href=\"/texts/1056901056.html\">Всё как у людей</a></li>"
                 + "</ul>";
-        final List<SongPreview> previews = GrobParser.parsePreviews(html);
+        final List<SongPreview> previews = GrobParser.parsePreviews(html).collectList().block();
         assertThat(previews)
                 .isNotEmpty()
                 .extracting(SongPreview::getId, SongPreview::getTitle)
@@ -136,7 +135,7 @@ class GrobParserTest {
     @Tag("preview")
     @DisplayName("Should return empty array")
     void parseEmptyPreviews() {
-        assertThat(GrobParser.parsePreviews(StringUtils.EMPTY))
+        assertThat(GrobParser.parsePreviews(StringUtils.EMPTY).collectList().block())
                 .isNotNull()
                 .isEmpty();
     }
