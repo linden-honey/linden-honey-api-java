@@ -9,6 +9,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.TextIndexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +34,7 @@ public class Song {
 
     private String album;
 
+    @Valid
     @NotNull(message = "Verses are required")
     private List<Verse> verses = new ArrayList<>();
 

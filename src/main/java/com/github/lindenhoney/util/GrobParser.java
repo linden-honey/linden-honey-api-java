@@ -11,7 +11,6 @@ import org.jsoup.nodes.Element;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -32,7 +31,9 @@ public class GrobParser {
     protected static Optional<Verse> parseVerse(String html) {
         return Optional.ofNullable(html)
                 .map(it -> Arrays.stream(html.split("<br>"))
-                        .map(Quote::new)
+                        .map(GrobParser::parseQuote)
+                        .filter(Optional::isPresent)
+                        .map(Optional::get)
                         .collect(Collectors.toList()))
                 .map(Verse::new);
     }
@@ -75,11 +76,10 @@ public class GrobParser {
                                     .filter(StringUtils::isNotBlank)
                                     .map(path -> path.substring(path.lastIndexOf('/') + 1, path.indexOf('.')))//TODO change to regexp
                                     .map(Long::parseLong)
-                                    .orElse(null);//TODO validation
+                                    .orElse(null);
                             final String title = link.text();
                             return new SongPreview(id, title);
-                        })
-                        .filter(preview -> Objects.nonNull(preview.getId())))//TODO proper validation
+                        }))
                 .orElseGet(Stream::empty);
     }
 }

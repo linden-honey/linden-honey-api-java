@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 @Accessors(chain = true)
 public class Quote {
     //TODO refine properties validation (for all cases, persistence and parser)
+    //TODO move validation messages to bundle
 
     @NotNull(message = "Phrase is required!")
     private String phrase;
