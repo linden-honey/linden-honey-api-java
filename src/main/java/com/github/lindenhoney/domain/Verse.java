@@ -20,7 +20,7 @@ public class Verse {
     //TODO refine properties validation (for all cases, persistence and parser)
 
     @Valid
-    @NotNull(message = "Quotes are required")
+    @NotNull
     private List<Quote> quotes = new ArrayList<>();
 
     public Verse(List<Quote> quotes) {

@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.index.TextIndexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,7 @@ public class Song {
     private Long id;
 
     @TextIndexed
-    @NotNull(message = "Title is required!")
+    @NotBlank
     private String title;
 
     private String author;

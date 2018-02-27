@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
@@ -14,9 +15,9 @@ import javax.validation.constraints.NotNull;
 public class SongPreview {
     //TODO refine properties validation (for all cases, persistence and parser)
 
-    @NotNull(message = "Id is required")
+    @NotNull
     private Long id;
 
-    @NotNull(message = "Title is required!")
+    @NotBlank
     private String title;
 }

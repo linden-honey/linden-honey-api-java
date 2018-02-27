@@ -4,7 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 @Data
 @NoArgsConstructor
@@ -13,7 +13,7 @@ public class Quote {
     //TODO refine properties validation (for all cases, persistence and parser)
     //TODO move validation messages to bundle
 
-    @NotNull(message = "Phrase is required!")
+    @NotBlank
     private String phrase;
 
     public Quote(String phrase) {
