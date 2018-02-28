@@ -36,10 +36,10 @@ public class Song {
     private String album;
 
     @Valid
-    @NotNull(message = "Verses are required")
+    @NotNull
     private List<Verse> verses = new ArrayList<>();
 
-    public Song(String title, String author, String album, List<Verse> verses) {
+    public Song(@NotBlank String title, String author, String album, @Valid @NotNull List<Verse> verses) {
         this.title = title;
         this.author = author;
         this.album = album;
