@@ -9,9 +9,11 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import javax.validation.Validator;
+import java.nio.charset.Charset;
 
 @Service
 public class GrobScraper implements Scraper {
+    private static final String SOURCE_CHARSET = "windows-1251";
 
     //TODO Global - fix response encoding
 
@@ -31,7 +33,8 @@ public class GrobScraper implements Scraper {
                 .uri("texts")
                 .exchange()
                 .retry(5)//TODO make retry configurable
-                .flatMap(response -> response.bodyToMono(String.class))//TODO wrap parser call as body extracto
+                .flatMap(response -> response.bodyToMono(byte[].class))
+                .map(bytes -> new String(bytes, Charset.forName(SOURCE_CHARSET)))//TODO wrap parser call as body extracto
                 .flatMapMany(html -> Flux.fromStream(GrobParser.parsePreviews(html)))
                 .filter(preview -> validator.validate(preview).isEmpty());
     }
@@ -53,7 +56,8 @@ public class GrobScraper implements Scraper {
                         .build())
                 .exchange()
                 .retry(5)//TODO make retry configurable
-                .flatMap(response -> response.bodyToMono(String.class))//TODO wrap parser call as body extractor
+                .flatMap(response -> response.bodyToMono(byte[].class))
+                .map(bytes -> new String(bytes, Charset.forName(SOURCE_CHARSET)))//TODO wrap parser call as body extractor
                 .flatMap(html -> Mono.justOrEmpty(GrobParser.parseSong(html)))
                 .filter(song -> validator.validate(song).isEmpty());
     }
