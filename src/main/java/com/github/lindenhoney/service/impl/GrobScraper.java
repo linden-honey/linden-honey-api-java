@@ -1,7 +1,8 @@
-package com.github.lindenhoney.service;
+package com.github.lindenhoney.service.impl;
 
 import com.github.lindenhoney.domain.Song;
 import com.github.lindenhoney.domain.SongPreview;
+import com.github.lindenhoney.service.Scraper;
 import com.github.lindenhoney.util.GrobParser;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;

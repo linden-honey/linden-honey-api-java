@@ -40,11 +40,10 @@ public class GrobParser {
 
     protected static Stream<Verse> parseLyrics(String html) {
         return Optional.ofNullable(html)
-                .map(it -> Arrays.stream(it.split("(?:<br\\>\\s*){2,}"))
+                .stream()
+                .flatMap(it -> Arrays.stream(it.split("(?:<br\\>\\s*){2,}"))
                         .map(GrobParser::parseVerse)
-                        .filter(Optional::isPresent)
-                        .map(Optional::get))
-                .orElseGet(Stream::empty);
+                        .flatMap(Optional::stream));
     }
 
     public static Optional<Song> parseSong(String html) {
@@ -69,7 +68,8 @@ public class GrobParser {
     public static Stream<SongPreview> parsePreviews(String html) {
         return Optional.ofNullable(html)
                 .map(Jsoup::parse)
-                .map(document -> document.select("#abc_list a")
+                .stream()
+                .flatMap(document -> document.select("#abc_list a")
                         .stream()
                         .map(link -> {
                             final Long id = Optional.ofNullable(link.attr("href"))
@@ -79,7 +79,6 @@ public class GrobParser {
                                     .orElse(null);
                             final String title = link.text();
                             return new SongPreview(id, title);
-                        }))
-                .orElseGet(Stream::empty);
+                        }));
     }
 }
