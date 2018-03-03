@@ -6,6 +6,7 @@ import com.github.lindenhoney.domain.SongPreview;
 import com.github.lindenhoney.domain.Verse;
 import lombok.experimental.UtilityClass;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 
@@ -18,10 +19,9 @@ import java.util.stream.Stream;
 @UtilityClass
 public class GrobParser {
 
-    //TODO Global - add validation
-
     protected static Optional<Quote> parseQuote(String html) {
         return Optional.ofNullable(html)
+                .filter(StringUtils::isNotBlank)
                 .map(Jsoup::parseBodyFragment)
                 .map(Element::text)
                 .map(text -> text.replaceAll("\\s+", StringUtils.SPACE))
@@ -30,6 +30,7 @@ public class GrobParser {
 
     protected static Optional<Verse> parseVerse(String html) {
         return Optional.ofNullable(html)
+                .filter(StringUtils::isNotBlank)
                 .map(it -> Arrays.stream(html.split("<br>"))
                         .map(GrobParser::parseQuote)
                         .filter(Optional::isPresent)
@@ -40,24 +41,29 @@ public class GrobParser {
 
     protected static Stream<Verse> parseLyrics(String html) {
         return Optional.ofNullable(html)
+                .filter(StringUtils::isNotBlank)
                 .stream()
-                .flatMap(it -> Arrays.stream(it.split("(?:<br\\>\\s*){2,}"))
+                .flatMap(it -> Arrays.stream(it.split("(?:<br>\\s*){2,}"))
                         .map(GrobParser::parseVerse)
                         .flatMap(Optional::stream));
     }
 
     public static Optional<Song> parseSong(String html) {
         return Optional.ofNullable(html)
+                .filter(StringUtils::isNotBlank)
                 .map(Jsoup::parse)
                 .map(document -> {
                     final String title = Optional.ofNullable(document.selectFirst("h2"))
                             .map(Element::text)
+                            .map(StringUtils::trimToNull)
                             .orElse(null);
                     final String author = Optional.ofNullable(document.selectFirst("p:has(strong:contains(Автор))"))
-                            .map(el -> el.text().split(": ")[1])//TODO refactor split to some search query
+                            .map(el -> StringUtils.substringAfterLast(el.text(), ": "))
+                            .map(StringUtils::trimToNull)
                             .orElse(null);
                     final String album = Optional.ofNullable(document.selectFirst("p:has(strong:contains(Альбом))"))
-                            .map(el -> el.text().split(": ")[1])//TODO refactor split to some search query
+                            .map(el -> StringUtils.substringAfterLast(el.text(), ": "))
+                            .map(StringUtils::trimToNull)
                             .orElse(null);
                     final String lyricsHtml = document.selectFirst("p:last-of-type").html();
                     final List<Verse> verses = parseLyrics(lyricsHtml).collect(Collectors.toList());
@@ -67,6 +73,7 @@ public class GrobParser {
 
     public static Stream<SongPreview> parsePreviews(String html) {
         return Optional.ofNullable(html)
+                .filter(StringUtils::isNotBlank)
                 .map(Jsoup::parse)
                 .stream()
                 .flatMap(document -> document.select("#abc_list a")
@@ -74,8 +81,10 @@ public class GrobParser {
                         .map(link -> {
                             final Long id = Optional.ofNullable(link.attr("href"))
                                     .filter(StringUtils::isNotBlank)
-                                    .map(path -> path.substring(path.lastIndexOf('/') + 1, path.indexOf('.')))//TODO change to regexp
-                                    .map(Long::parseLong)
+                                    .map(path -> StringUtils.substringAfterLast(path, "/"))
+                                    .map(path -> StringUtils.substringBeforeLast(path, "."))
+                                    .map(NumberUtils::toLong)
+                                    .filter(it -> !it.equals(0L))
                                     .orElse(null);
                             final String title = link.text();
                             return new SongPreview(id, title);

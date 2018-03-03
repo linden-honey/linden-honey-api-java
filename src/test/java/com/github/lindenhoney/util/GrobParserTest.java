@@ -8,6 +8,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+import java.util.Collections;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.groups.Tuple.tuple;
 
@@ -110,6 +113,89 @@ class GrobParserTest {
                 );
     }
 
+
+    @Test
+    @Tag("song")
+    @DisplayName("Should return empty object")
+    void parseEmptySongTest() {
+        final String html = "";
+        assertThat(GrobParser.parseSong(html)).isNotPresent();
+    }
+
+    @Test
+    @Tag("song")
+    @DisplayName("Should return song object with all filled props")
+    void parseSongTest() {
+        final String html = ""
+                + "<h2>Всё идёт по плану</h2>"
+                + "<p><strong>Автор:</strong> Е.Летов</p>"
+                + "<p><strong>Альбом:</strong> Всё идёт по плану</p>"
+                + "<p>Some phrase 1<br>Some phrase 2</p>";
+        assertThat(GrobParser.parseSong(html))
+                .isPresent()
+                .get()
+                .hasFieldOrPropertyWithValue("title", "Всё идёт по плану")
+                .hasFieldOrPropertyWithValue("author", "Е.Летов")
+                .hasFieldOrPropertyWithValue("album", "Всё идёт по плану")
+                .hasFieldOrPropertyWithValue("verses", Collections.singletonList(new Verse(
+                        Arrays.asList(
+                                new Quote("Some phrase 1"),
+                                new Quote("Some phrase 2")
+                        )
+                )));
+    }
+
+    @Test
+    @Tag("song")
+    @DisplayName("Should return song object without title")
+    void parseSongWithoutTitleTest() {
+        final String html = ""
+                + "<p><strong>Автор:</strong> Е.Летов</p>"
+                + "<p><strong>Альбом:</strong> Всё идёт по плану</p>"
+                + "<p></p>";
+        assertThat(GrobParser.parseSong(html))
+                .isPresent()
+                .get()
+                .hasFieldOrPropertyWithValue("title", null)
+                .hasFieldOrPropertyWithValue("author", "Е.Летов")
+                .hasFieldOrPropertyWithValue("album", "Всё идёт по плану")
+                .hasFieldOrPropertyWithValue("verses", Collections.emptyList());
+    }
+
+    @Test
+    @Tag("song")
+    @DisplayName("Should return song object without author")
+    void parseSongWithoutAuthorTest() {
+        final String html = ""
+                + "<h2>Всё идёт по плану</h2>"
+                + "<p><strong>Альбом:</strong> Всё идёт по плану</p>"
+                + "<p></p>";
+        assertThat(GrobParser.parseSong(html))
+                .isPresent()
+                .get()
+                .hasFieldOrPropertyWithValue("title", "Всё идёт по плану")
+                .hasFieldOrPropertyWithValue("author", null)
+                .hasFieldOrPropertyWithValue("album", "Всё идёт по плану")
+                .hasFieldOrPropertyWithValue("verses", Collections.emptyList());
+    }
+
+    @Test
+    @Tag("song")
+    @DisplayName("Should return song object without album")
+    void parseSongWithoutAlbumTest() {
+        final String html = ""
+                + "<h2>Всё идёт по плану</h2>"
+                + "<p><strong>Автор:</strong> Е.Летов</p>"
+                + "<p></p>";
+        assertThat(GrobParser.parseSong(html))
+                .isPresent()
+                .get()
+                .hasFieldOrPropertyWithValue("title", "Всё идёт по плану")
+                .hasFieldOrPropertyWithValue("author", "Е.Летов")
+                .hasFieldOrPropertyWithValue("album", null)
+                .hasFieldOrPropertyWithValue("verses", Collections.emptyList());
+    }
+
     @Test
     @Tag("preview")
     @DisplayName("Should return array with preview objects")
@@ -125,6 +211,7 @@ class GrobParserTest {
                 .extracting(SongPreview::getId, SongPreview::getTitle)
                 .containsExactly(
                         tuple(1056899068L, "Всё идёт по плану"),
+                        tuple(null, "Unknown"),
                         tuple(1056901056L, "Всё как у людей")
                 );
     }
@@ -134,7 +221,6 @@ class GrobParserTest {
     @DisplayName("Should return empty array")
     void parseEmptyPreviews() {
         assertThat(GrobParser.parsePreviews(StringUtils.EMPTY))
-                .isNotNull()
                 .isEmpty();
     }
 }
