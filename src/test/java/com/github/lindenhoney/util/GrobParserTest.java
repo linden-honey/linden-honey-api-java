@@ -18,6 +18,15 @@ class GrobParserTest {
 
     @Test
     @Tag("quote")
+    @DisplayName("Should return empty optional of quote")
+    void parseEmptyQuoteTest() {
+        assertThat(GrobParser.parseQuote(null)).isNotPresent();
+        assertThat(GrobParser.parseQuote("")).isNotPresent();
+        assertThat(GrobParser.parseQuote(" ")).isNotPresent();
+    }
+
+    @Test
+    @Tag("quote")
     @DisplayName("Should return quote object with a phrase string")
     void parseQuoteTest() {
         final String html = "Some phrase";
@@ -50,6 +59,15 @@ class GrobParserTest {
                 .get()
                 .extracting(Quote::getPhrase)
                 .containsExactly("Some text with html formatting tags");
+    }
+
+    @Test
+    @Tag("verse")
+    @DisplayName("Should return empty optional of verse")
+    void parseEmptyVerseTest() {
+        assertThat(GrobParser.parseVerse(null)).isNotPresent();
+        assertThat(GrobParser.parseVerse("")).isNotPresent();
+        assertThat(GrobParser.parseVerse(" ")).isNotPresent();
     }
 
     @Test
@@ -91,6 +109,15 @@ class GrobParserTest {
 
     @Test
     @Tag("lyrics")
+    @DisplayName("Should return empty stream of verses")
+    void parseEmptyLyricsTest() {
+        assertThat(GrobParser.parseLyrics(null)).isEmpty();
+        assertThat(GrobParser.parseLyrics("")).isEmpty();
+        assertThat(GrobParser.parseLyrics(" ")).isEmpty();
+    }
+
+    @Test
+    @Tag("lyrics")
     @DisplayName("Should return array with verses objects")
     void parseLyricsTest() {
         final String html = ""
@@ -116,10 +143,11 @@ class GrobParserTest {
 
     @Test
     @Tag("song")
-    @DisplayName("Should return empty object")
+    @DisplayName("Should return empty optional of song")
     void parseEmptySongTest() {
-        final String html = "";
-        assertThat(GrobParser.parseSong(html)).isNotPresent();
+        assertThat(GrobParser.parseSong(null)).isNotPresent();
+        assertThat(GrobParser.parseSong("")).isNotPresent();
+        assertThat(GrobParser.parseSong(" ")).isNotPresent();
     }
 
     @Test
