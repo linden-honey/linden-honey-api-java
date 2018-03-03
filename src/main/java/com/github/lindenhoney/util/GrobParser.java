@@ -25,6 +25,7 @@ public class GrobParser {
                 .map(Jsoup::parseBodyFragment)
                 .map(Element::text)
                 .map(text -> text.replaceAll("\\s+", StringUtils.SPACE))
+                .map(StringUtils::trimToNull)
                 .map(Quote::new);
     }
 
