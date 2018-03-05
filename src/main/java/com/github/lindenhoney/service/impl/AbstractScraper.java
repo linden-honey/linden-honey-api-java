@@ -1,8 +1,9 @@
 package com.github.lindenhoney.service.impl;
 
+import com.github.lindenhoney.config.LindenHoneyProperties;
 import com.github.lindenhoney.service.Scraper;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -13,18 +14,19 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class AbstractScraper implements Scraper {
 
-    //TODO add support for global scraper configuration
-    //TODO add support for scraper on/off global flag
-
+    protected final LindenHoneyProperties.Scrapers.Scraper properties;
     protected final Validator validator;
     protected final WebClient client;
 
-    protected AbstractScraper(Validator validator) {
+    protected AbstractScraper(LindenHoneyProperties.Scrapers.Scraper properties, Validator validator) {
+        this.properties = properties;
         this.validator = validator;
-        this.client = WebClient.builder().build();
+        this.client = WebClient.builder()
+                .baseUrl(properties.getBaseUrl())
+                .build();
     }
 
     protected <T> boolean validate(T bean) {

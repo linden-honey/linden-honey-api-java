@@ -1,10 +1,11 @@
 package com.github.lindenhoney.service.impl;
 
+import com.github.lindenhoney.config.LindenHoneyProperties;
 import com.github.lindenhoney.domain.Song;
 import com.github.lindenhoney.domain.SongPreview;
 import com.github.lindenhoney.util.GrobParser;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.retry.Retry;
@@ -12,20 +13,20 @@ import reactor.retry.Retry;
 import javax.validation.Validator;
 import java.net.ConnectException;
 import java.nio.charset.Charset;
-import java.time.Duration;
 
+//TODO refactor global on/off flag - write it ones
+@ConditionalOnProperty(
+        prefix = "linden-honey.scrapers",
+        value = {"enabled", "grob.enabled"},
+        havingValue = "true")
 @Service
 public class GrobScraper extends AbstractScraper {
 
     private static final String SOURCE_CHARSET = "windows-1251";
 
-    //TODO add support for configuration per implementation
-    //TODO add support for scraper on/off flag per implementation
-
-    public GrobScraper(Validator validator) {
-        super(validator, WebClient.builder()
-                .baseUrl("http://www.gr-oborona.ru/")
-                .build());
+    //TODO refactor properties injection - looks ugly
+    public GrobScraper(LindenHoneyProperties properties, Validator validator) {
+        super(properties.getScrapers().getGrob(), validator);
     }
 
     @Override
@@ -35,17 +36,17 @@ public class GrobScraper extends AbstractScraper {
                 .flatMap(this::fetchSong);
     }
 
-    protected Flux<SongPreview> fetchPreviews() {
+    private Flux<SongPreview> fetchPreviews() {
         return client.get()
                 .uri("texts")
                 .exchange()
                 .flatMap(response -> response.bodyToMono(byte[].class))
-                .map(bytes -> new String(bytes, Charset.forName(SOURCE_CHARSET)))//TODO wrap parser call as body extracto
+                .map(bytes -> new String(bytes, Charset.forName(SOURCE_CHARSET)))
                 .flatMapMany(html -> Flux.fromStream(GrobParser.parsePreviews(html)))
                 .filter(this::validate);
     }
 
-    protected Mono<Song> fetchSong(Long id) {
+    private Mono<Song> fetchSong(Long id) {
         return client.get()
                 .uri(builder -> builder
                         .path("text_print.php")
@@ -55,10 +56,10 @@ public class GrobScraper extends AbstractScraper {
                 .exchange()
                 .retryWhen(Retry
                         .anyOf(ConnectException.class)
-                        .retryMax(5)
-                        .exponentialBackoff(Duration.ofSeconds(1), Duration.ofSeconds(6)))
+                        .retryMax(properties.getRetry().getMaxRetries())
+                        .exponentialBackoff(properties.getRetry().getFirstBackoff(), properties.getRetry().getMaxBackoff()))
                 .flatMap(response -> response.bodyToMono(byte[].class))
-                .map(bytes -> new String(bytes, Charset.forName(SOURCE_CHARSET)))//TODO wrap parser call as body extractor
+                .map(bytes -> new String(bytes, Charset.forName(SOURCE_CHARSET)))
                 .flatMap(html -> Mono.justOrEmpty(GrobParser.parseSong(html)))
                 .filter(this::validate);
     }

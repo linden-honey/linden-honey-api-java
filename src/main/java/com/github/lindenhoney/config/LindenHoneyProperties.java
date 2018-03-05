@@ -8,6 +8,7 @@ import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
+import java.time.Duration;
 
 @Getter
 @Setter
@@ -20,6 +21,9 @@ public class LindenHoneyProperties {
 
     @Valid
     private final Database db = new Database();
+
+    @Valid
+    private final Scrapers scrapers = new Scrapers();
 
     @Getter
     @Setter
@@ -49,6 +53,37 @@ public class LindenHoneyProperties {
             private boolean enabled;
             private String scanPackage;
             private String initialDataUrl;
+        }
+    }
+
+    @Getter
+    @Setter
+    public static class Scrapers {
+
+        private boolean enabled;
+
+        @Valid
+        private final Scraper grob = new Scraper();
+
+        @Getter
+        @Setter
+        public static class Scraper {
+
+            private boolean enabled;
+
+            @NotNull
+            private String baseUrl;
+
+            @Valid
+            private final Retry retry = new Retry();
+
+            @Getter
+            @Setter
+            public static class Retry {
+                private int maxRetries;
+                private Duration firstBackoff;
+                private Duration maxBackoff;
+            }
         }
     }
 }

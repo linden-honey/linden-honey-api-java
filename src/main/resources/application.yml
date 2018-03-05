@@ -11,6 +11,15 @@ linden-honey:
       enabled: true
 #      scan-package: com.github.lindenhoney.migration
 #      initial-data-url: https://sons-db/all.json
+  scrapers:
+    enabled: false
+    grob:
+      enabled: true
+      base-url: http://www.gr-oborona.ru/
+      retry:
+        maxRetries: 5
+        firstBackoff: 1s
+        maxBackoff: 5s
 
 
 # ===============================
