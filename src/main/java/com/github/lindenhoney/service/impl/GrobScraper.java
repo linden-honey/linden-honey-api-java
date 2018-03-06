@@ -1,6 +1,6 @@
 package com.github.lindenhoney.service.impl;
 
-import com.github.lindenhoney.config.LindenHoneyProperties;
+import com.github.lindenhoney.config.ApplicationProperties;
 import com.github.lindenhoney.domain.Song;
 import com.github.lindenhoney.domain.SongPreview;
 import com.github.lindenhoney.util.GrobParser;
@@ -25,7 +25,7 @@ public class GrobScraper extends AbstractScraper {
     private static final String SOURCE_CHARSET = "windows-1251";
 
     //TODO refactor properties injection - looks ugly
-    public GrobScraper(LindenHoneyProperties properties, Validator validator) {
+    public GrobScraper(ApplicationProperties properties, Validator validator) {
         super(properties.getScrapers().getGrob(), validator);
     }
 

@@ -14,10 +14,10 @@ import java.time.Duration;
 @Setter
 @Validated
 @ConfigurationProperties(prefix = "linden-honey")
-public class LindenHoneyProperties {
+public class ApplicationProperties {
 
     @Valid
-    private final Application app = new Application();
+    private final ApplicationProperties.Server server = new Server();
 
     @Valid
     private final Database db = new Database();
@@ -27,7 +27,7 @@ public class LindenHoneyProperties {
 
     @Getter
     @Setter
-    public static class Application {
+    public static class Server {
 
         private String name;
 

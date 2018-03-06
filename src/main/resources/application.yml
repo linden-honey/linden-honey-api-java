@@ -2,7 +2,7 @@
 # [ Linden Honey Properties ]
 # ===============================
 linden-honey:
-  app:
+  server:
     name: Linden Honey
     port: 8080
   db:
@@ -26,7 +26,7 @@ linden-honey:
 # [ Server Properties ]
 # ===============================
 server:
-  port: ${linden-honey.app.port}
+  port: ${linden-honey.server.port}
 
 
 # ===============================
@@ -36,7 +36,7 @@ spring:
   profiles:
     active: dev
   application:
-    name: ${linden-honey.app.name}
+    name: ${linden-honey.server.name}
   data:
     mongodb:
       uri: ${linden-honey.db.uri}

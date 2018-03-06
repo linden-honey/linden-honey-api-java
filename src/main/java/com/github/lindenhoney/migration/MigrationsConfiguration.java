@@ -1,6 +1,6 @@
 package com.github.lindenhoney.migration;
 
-import com.github.lindenhoney.config.LindenHoneyProperties;
+import com.github.lindenhoney.config.ApplicationProperties;
 import com.github.mongobee.Mongobee;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -16,11 +16,11 @@ import java.util.Optional;
 @Configuration
 public class MigrationsConfiguration {
 
-    private final LindenHoneyProperties.Database properties;
+    private final ApplicationProperties.Database properties;
     private final Environment environment;
     private final MongoTemplate mongoTemplate;
 
-    public MigrationsConfiguration(LindenHoneyProperties properties, Environment environment, MongoTemplate mongoTemplate) {
+    public MigrationsConfiguration(ApplicationProperties properties, Environment environment, MongoTemplate mongoTemplate) {
         this.properties = properties.getDb();
         this.environment = environment;
         this.mongoTemplate = mongoTemplate;

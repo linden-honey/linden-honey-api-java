@@ -1,6 +1,6 @@
 package com.github.lindenhoney.service.impl;
 
-import com.github.lindenhoney.config.LindenHoneyProperties;
+import com.github.lindenhoney.config.ApplicationProperties;
 import com.github.lindenhoney.service.Scraper;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -17,16 +17,14 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class AbstractScraper implements Scraper {
 
-    protected final LindenHoneyProperties.Scrapers.Scraper properties;
+    protected final ApplicationProperties.Scrapers.Scraper properties;
     protected final Validator validator;
     protected final WebClient client;
 
-    protected AbstractScraper(LindenHoneyProperties.Scrapers.Scraper properties, Validator validator) {
+    protected AbstractScraper(ApplicationProperties.Scrapers.Scraper properties, Validator validator) {
         this.properties = properties;
         this.validator = validator;
-        this.client = WebClient.builder()
-                .baseUrl(properties.getBaseUrl())
-                .build();
+        this.client = WebClient.create(properties.getBaseUrl());
     }
 
     protected <T> boolean validate(T bean) {
