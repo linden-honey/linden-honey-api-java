@@ -1,5 +1,6 @@
 package com.github.lindenhoney.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -22,8 +23,8 @@ import java.util.List;
 @ToString(exclude = {"verses"})
 @Document(collection = "songs")
 public class Song {
-    //TODO refine properties validation (for all cases, persistence and parser)
 
+    @JsonIgnore
     @Id
     private Long id;
 

@@ -16,7 +16,6 @@ import java.util.List;
 @EqualsAndHashCode(exclude = {"quotes"})
 @ToString(exclude = {"quotes"})
 public class Verse {
-    //TODO refine properties validation (for all cases, persistence and parser)
 
     @Valid
     @NotNull

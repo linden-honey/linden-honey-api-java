@@ -12,8 +12,6 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 @Accessors(chain = true)
 public class Quote {
-    //TODO refine properties validation (for all cases, persistence and parser)
-    //TODO move validation messages to bundle
 
     @NotBlank
     private String phrase;

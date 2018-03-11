@@ -19,7 +19,7 @@ linden-honey:
       retry:
         maxRetries: 5
         firstBackoff: 1s
-        maxBackoff: 5s
+        maxBackoff: 6s
 
 
 # ===============================
