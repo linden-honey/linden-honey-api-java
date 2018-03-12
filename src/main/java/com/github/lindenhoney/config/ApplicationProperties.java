@@ -17,7 +17,7 @@ import java.time.Duration;
 public class ApplicationProperties {
 
     @Valid
-    private final ApplicationProperties.Server server = new Server();
+    private final Server server = new Server();
 
     @Valid
     private final Database db = new Database();
