@@ -34,8 +34,7 @@ public class GrobParser {
                 .filter(StringUtils::isNotBlank)
                 .map(it -> Arrays.stream(html.split("<br>"))
                         .map(GrobParser::parseQuote)
-                        .filter(Optional::isPresent)
-                        .map(Optional::get)
+                        .flatMap(Optional::stream)
                         .collect(Collectors.toList()))
                 .map(Verse::new);
     }
