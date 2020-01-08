@@ -21,6 +21,7 @@
 - [Java](https://openjdk.java.net/)
 - [Gradle](https://gradle.org/)
 - [Spring](https://spring.io/)
+- [PostgreSQL](https://www.postgresql.org/)
 
 ## Usage
 
