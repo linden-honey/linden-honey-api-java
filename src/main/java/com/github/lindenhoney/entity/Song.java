@@ -1,32 +1,28 @@
-package com.github.lindenhoney.domain;
+package com.github.lindenhoney.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
-import org.springframework.data.domain.Persistable;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Table(name = "song")
 @Data
 @NoArgsConstructor
 @Accessors(chain = true)
 @EqualsAndHashCode(exclude = {"verses"})
 @ToString(exclude = {"verses"})
-@Entity
-@Table(name = "song")
-public class Song implements Persistable<Integer> {
+public class Song {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "song_id_seq")
     @SequenceGenerator(name = "song_id_seq", sequenceName = "song_id_seq", allocationSize = 1)
     private Integer id;
 
-    @NotNull(message = "Title is required!")
     @Column(name = "title", nullable = false)
     private String title;
 
@@ -51,17 +47,5 @@ public class Song implements Persistable<Integer> {
         this.verses.clear();
         this.verses.addAll(verses);
         return this;
-    }
-
-    @JsonIgnore
-    @Override
-    public Integer getId() {
-        return id;
-    }
-
-    @JsonIgnore
-    @Override
-    public boolean isNew() {
-        return id == null;
     }
 }

@@ -1,25 +1,23 @@
-package com.github.lindenhoney.domain;
+package com.github.lindenhoney.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
-import org.springframework.data.domain.Persistable;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Table(name = "verse")
 @Data
 @NoArgsConstructor
 @Accessors(chain = true)
 @EqualsAndHashCode(exclude = {"quotes"})
 @ToString(exclude = {"quotes"})
-@Entity
-@Table(name = "verse")
-public class Verse implements Persistable<Integer> {
+public class Verse {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "verse_id_seq")
     @SequenceGenerator(name = "verse_id_seq", sequenceName = "verse_id_seq", allocationSize = 1)
@@ -37,17 +35,5 @@ public class Verse implements Persistable<Integer> {
         this.quotes.clear();
         this.quotes.addAll(quotes);
         return this;
-    }
-
-    @JsonIgnore
-    @Override
-    public Integer getId() {
-        return id;
-    }
-
-    @JsonIgnore
-    @Override
-    public boolean isNew() {
-        return id == null;
     }
 }
