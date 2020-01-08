@@ -1,32 +1,36 @@
-import static org.gradle.api.tasks.wrapper.Wrapper.DistributionType.*
+buildscript {
+    repositories {
+        mavenCentral()
+    }
 
-plugins {
-    id 'java'
-    id 'idea'
-    id 'org.springframework.boot' version '1.5.10.RELEASE'
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+    }
 }
+
+apply plugin: 'idea'
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
 
 group = 'com.github.lindenhoney'
-version = '1.1'
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-
-jar {
-    baseName = this.name
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
 }
 
-bootRepackage  {
-    executable = true
+springBoot {
+    buildInfo()
 }
 
-bootRun {
-    addResources = true
-}
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.5.1'
-    distributionType = ALL
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+        exceptionFormat "short"
+    }
+    failFast = true
 }
 
 repositories {
@@ -37,20 +41,37 @@ dependencies {
 /**
  *  Spring dependencies
  */
-    compile 'org.springframework.boot:spring-boot-starter-data-jpa'
-    compile 'org.springframework.boot:spring-boot-starter-data-rest'
-    compile 'org.springframework.data:spring-data-rest-hal-browser'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
 /**
  *  Other dependencies
  */
+    runtime "org.postgresql:postgresql:${postgresqlVersion}"
+    implementation "org.flywaydb:flyway-core:${flywaydbVersion}"
+
+    implementation "org.springdoc:springdoc-openapi-webflux-ui:${springDocVersion}"
+
+    implementation 'io.micrometer:micrometer-registry-prometheus'
+
+
     compileOnly 'org.projectlombok:lombok'
-    compile 'org.apache.commons:commons-lang3:3.7'
-    compile 'org.flywaydb:flyway-core:5.0.7'
-    runtime 'org.postgresql:postgresql:42.2.1'
+    annotationProcessor 'org.projectlombok:lombok'
+    implementation "org.apache.commons:commons-lang3:${apacheCommonsLangVersion}"
+
+    implementation "org.jsoup:jsoup:${jsoupVersion}"
+    implementation 'io.projectreactor.addons:reactor-extra'
+
 
 /**
  *  Test dependencies
  */
-    testCompile 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation("org.junit.jupiter:junit-jupiter:${junitJupiterVersion}")
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test', {
+        exclude group: 'junit', module: 'junit'
+    }
+
+    testImplementation 'io.projectreactor:reactor-test'
 }
