@@ -1,21 +1,13 @@
-# ===============================
-# [ TG2VK Properties ]
-# ===============================
-linden_honey:
-  app:
-    name: Linden Honey
-  db:
-    url: jdbc:postgresql://localhost:5432/linden-honey?user=linden-honey&password=linden-honey
+application:
+  rest:
+    base-path: /api
 
+server:
+  port: 8080
 
-# ===============================
-# [ Spring Properties ]
-# ===============================
 spring:
-  application:
-    name: ${linden_honey.app.name}
   datasource:
-    url: ${linden_honey.db.url}
+    url: jdbc:postgresql://localhost:5432/linden-honey?user=linden-honey&password=linden-honey
   jpa:
     show-sql: true
     hibernate:
@@ -24,19 +16,16 @@ spring:
       hibernate:
         id:
           new_generator_mappings: true
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
 
+springdoc:
+  swagger-ui:
+    path: /
+  api-docs:
+    path: /api-docs
 
-# ===============================
-# [ Flyway Properties ]
-# ===============================
-flyway:
-  enabled: true
-  locations: classpath:db/migration
-
-
-# ===============================
-# [ Logging Properties ]
-# ===============================
 logging:
   level:
     com:
