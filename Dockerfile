@@ -1,30 +1,15 @@
-# ===============================
-# [ Builder image ]
-# ===============================
-FROM java:8-jdk-alpine AS BUILDER
+FROM openjdk:11-jre-slim
 
-ARG ROOT_DIR=/workspace
-ARG WORK_DIR=$ROOT_DIR/linden-honey
-
-COPY . $WORK_DIR
-WORKDIR $WORK_DIR
-
-RUN ./gradlew build -x test
-
-# ===============================
-# [ Production image ]
-# ===============================
-FROM java:8-jre-alpine
-
-LABEL name="linden-honey-spring" \
+LABEL name="linden-honey-scraper" \
       maintainer="aliaksandr.babai@gmail.com"
 
-ARG ROOT_DIR=/workspace
-ARG WORK_DIR=$ROOT_DIR/linden-honey
-ENV SERVER_PORT=8080
-
+ARG WORK_DIR=/linden-honey
 WORKDIR $WORK_DIR
-COPY --from=BUILDER $WORK_DIR/build/libs/*.jar .
+
+ENV SERVER_PORT=80 \
+    JAVA_OPTS=""
+
+COPY build/libs/*.jar .
 
 EXPOSE $SERVER_PORT
-CMD ["/bin/sh", "-c", "java -jar *.jar"]
+CMD java $JAVA_OPTS -Djava.security.egd=file:/dev/urandom -jar *.jar
