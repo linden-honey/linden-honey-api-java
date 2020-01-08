@@ -55,9 +55,9 @@ dependencies {
 
     implementation 'io.micrometer:micrometer-registry-prometheus'
 
-
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+
     implementation "org.apache.commons:commons-lang3:${apacheCommonsLangVersion}"
 
     implementation "org.jsoup:jsoup:${jsoupVersion}"
@@ -67,7 +67,11 @@ dependencies {
 /**
  *  Test dependencies
  */
-    testImplementation("org.junit.jupiter:junit-jupiter:${junitJupiterVersion}")
+    testImplementation "org.junit.jupiter:junit-jupiter:${junitJupiterVersion}"
+    testImplementation "org.testcontainers:testcontainers:${testcontainersVersion}"
+
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test', {
         exclude group: 'junit', module: 'junit'
