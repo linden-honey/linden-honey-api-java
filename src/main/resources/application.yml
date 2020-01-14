@@ -12,10 +12,6 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: validate
-    properties:
-      hibernate:
-        id:
-          new_generator_mappings: true
   flyway:
     enabled: true
     locations: classpath:db/migration

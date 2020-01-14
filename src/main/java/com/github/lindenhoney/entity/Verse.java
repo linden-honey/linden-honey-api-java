@@ -19,21 +19,11 @@ import java.util.List;
 @ToString(exclude = {"quotes"})
 public class Verse {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "verse_id_seq")
-    @SequenceGenerator(name = "verse_id_seq", sequenceName = "verse_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
+    @OrderColumn(name = "index", nullable = false)
     @JoinColumn(name = "verse_id", referencedColumnName = "id", nullable = false, updatable = false)
     private List<Quote> quotes = new ArrayList<>();
-
-    public Verse(List<Quote> quotes) {
-        this.quotes = quotes;
-    }
-
-    public Verse setQuotes(List<Quote> quotes) {
-        this.quotes.clear();
-        this.quotes.addAll(quotes);
-        return this;
-    }
 }

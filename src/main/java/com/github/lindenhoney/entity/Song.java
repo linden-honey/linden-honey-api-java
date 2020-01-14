@@ -19,8 +19,7 @@ import java.util.List;
 @ToString(exclude = {"verses"})
 public class Song {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "song_id_seq")
-    @SequenceGenerator(name = "song_id_seq", sequenceName = "song_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "title", nullable = false)
@@ -33,19 +32,7 @@ public class Song {
     private String album;
 
     @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
+    @OrderColumn(name = "index", nullable = false)
     @JoinColumn(name = "song_id", referencedColumnName = "id", nullable = false, updatable = false)
     private List<Verse> verses = new ArrayList<>();
-
-    public Song(String title, String author, String album, List<Verse> verses) {
-        this.title = title;
-        this.author = author;
-        this.album = album;
-        this.verses = verses;
-    }
-
-    public Song setVerses(List<Verse> verses) {
-        this.verses.clear();
-        this.verses.addAll(verses);
-        return this;
-    }
 }
