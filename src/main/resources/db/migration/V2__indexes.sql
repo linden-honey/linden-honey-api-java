@@ -1,1 +1,1 @@
-CREATE INDEX ON song ((lower(title)));
+CREATE INDEX idx_song_title_lower ON song (lower(title));
