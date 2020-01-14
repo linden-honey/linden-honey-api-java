@@ -8,14 +8,15 @@ import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface QuoteRepository extends Repository<Quote, Integer> {
 
     @Query(value = "SELECT * FROM QUOTE ORDER BY RANDOM() LIMIT 1", nativeQuery = true)
-    Quote findRandomQuote();
+    Optional<Quote> findRandomQuote();
 
     @Query(value = "SELECT * FROM QUOTE q WHERE q.verse_id IN (SELECT v.id FROM VERSE v WHERE v.song_id = :songId) ORDER BY RANDOM() LIMIT 1", nativeQuery = true)
-    Quote findRandomQuoteFromSong(@Param("songId") Integer songId);
+    Optional<Quote> findRandomQuoteFromSong(@Param("songId") Integer songId);
 
     @Query(
             value = "SELECT DISTINCT ON (q.phrase) * FROM QUOTE q WHERE q.phrase ILIKE %:phrase% /* shitty spring hack #pageable */",
