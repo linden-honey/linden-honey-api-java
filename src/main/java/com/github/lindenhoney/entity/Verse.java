@@ -7,6 +7,7 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +23,7 @@ public class Verse {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @NotEmpty
     @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
     @OrderColumn(name = "index", nullable = false)
     @JoinColumn(name = "verse_id", referencedColumnName = "id", nullable = false, updatable = false)
