@@ -7,6 +7,7 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring", uses = {VerseMapper.class})
 public interface SongMapper {
+
     SongEntity mapToEntity(Song entity);
 
     Song mapToDomain(SongEntity entity);
