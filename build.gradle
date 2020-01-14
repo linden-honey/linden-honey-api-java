@@ -55,17 +55,14 @@ dependencies {
 
     implementation 'io.micrometer:micrometer-registry-prometheus'
 
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
-
     implementation "org.mapstruct:mapstruct:${mapstructVersion}"
     annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
 
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+
     implementation "org.apache.commons:commons-lang3:${apacheCommonsLangVersion}"
-
-    implementation "org.jsoup:jsoup:${jsoupVersion}"
-    implementation 'io.projectreactor.addons:reactor-extra'
-
 
 /**
  *  Test dependencies
@@ -79,6 +76,4 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test', {
         exclude group: 'junit', module: 'junit'
     }
-
-    testImplementation 'io.projectreactor:reactor-test'
 }
