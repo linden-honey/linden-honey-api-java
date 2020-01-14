@@ -1,9 +1,9 @@
 package com.github.lindenhoney.repository;
 
 import com.github.lindenhoney.AbstractIntegrationTest;
-import com.github.lindenhoney.entity.Quote;
-import com.github.lindenhoney.entity.Song;
-import com.github.lindenhoney.entity.Verse;
+import com.github.lindenhoney.entity.QuoteEntity;
+import com.github.lindenhoney.entity.SongEntity;
+import com.github.lindenhoney.entity.VerseEntity;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -16,15 +16,15 @@ public class SongRepositoryTest extends AbstractIntegrationTest {
 
     @Test
     void saveSongTest() {
-        final Song song = new Song()
+        final SongEntity song = new SongEntity()
                 .setTitle("Song")
                 .setVerses(List.of(
-                        new Verse()
+                        new VerseEntity()
                                 .setQuotes(
                                         List.of(
-                                                new Quote().setPhrase("1"),
-                                                new Quote().setPhrase("2"),
-                                                new Quote().setPhrase("3")
+                                                new QuoteEntity().setPhrase("1"),
+                                                new QuoteEntity().setPhrase("2"),
+                                                new QuoteEntity().setPhrase("3")
                                         )
                                 )
                 ));

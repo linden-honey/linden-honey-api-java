@@ -12,30 +12,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "song")
+@Table(name = "verse")
 @Data
 @NoArgsConstructor
 @Accessors(chain = true)
-@EqualsAndHashCode(exclude = {"verses"})
-@ToString(exclude = {"verses"})
-public class Song {
+@EqualsAndHashCode(exclude = {"quotes"})
+@ToString(exclude = {"quotes"})
+public class VerseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @NotEmpty
-    @Column(name = "title", nullable = false)
-    private String title;
-
-    @Column(name = "author")
-    private String author;
-
-    @Column(name = "album")
-    private String album;
-
-    @NotEmpty
     @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
     @OrderColumn(name = "index", nullable = false)
-    @JoinColumn(name = "song_id", referencedColumnName = "id", nullable = false, updatable = false)
-    private List<Verse> verses = new ArrayList<>();
+    @JoinColumn(name = "verse_id", referencedColumnName = "id", nullable = false, updatable = false)
+    private List<QuoteEntity> quotes = new ArrayList<>();
 }

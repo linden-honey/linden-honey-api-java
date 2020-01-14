@@ -12,7 +12,7 @@ import javax.validation.constraints.NotEmpty;
 @Data
 @NoArgsConstructor
 @Accessors(chain = true)
-public class Quote {
+public class QuoteEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
