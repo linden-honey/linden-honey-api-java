@@ -6,11 +6,7 @@ import com.github.lindenhoney.entity.SongEntity;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring", uses = {VerseMapper.class})
-public interface SongMapper {
-
-    SongEntity toEntity(Song entity);
-
-    Song toDomain(SongEntity entity);
+public interface SongMapper extends GenericMapper<Song, SongEntity> {
 
     Preview toDomainPreview(Song entity);
 

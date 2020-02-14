@@ -6,10 +6,9 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
-public interface QuoteMapper {
+public interface QuoteMapper extends GenericMapper<Quote, QuoteEntity> {
 
     @Mapping(target = "id", ignore = true)
     QuoteEntity toEntity(Quote domain);
 
-    Quote toDomain(QuoteEntity entity);
 }

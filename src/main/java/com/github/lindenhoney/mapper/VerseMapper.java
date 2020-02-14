@@ -6,7 +6,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring", uses = {QuoteMapper.class})
-public interface VerseMapper {
+public interface VerseMapper extends GenericMapper<Verse, VerseEntity> {
 
     @Mapping(target = "id", ignore = true)
     VerseEntity toEntity(Verse domain);
