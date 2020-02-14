@@ -8,11 +8,11 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring", uses = {VerseMapper.class})
 public interface SongMapper {
 
-    SongEntity mapToEntity(Song entity);
+    SongEntity toEntity(Song entity);
 
-    Song mapToDomain(SongEntity entity);
+    Song toDomain(SongEntity entity);
 
-    Preview mapToPreview(Song entity);
+    Preview toDomainPreview(Song entity);
 
-    Preview mapToPreview(SongEntity entity);
+    Preview toDomainPreview(SongEntity entity);
 }

@@ -9,7 +9,7 @@ import org.mapstruct.Mapping;
 public interface QuoteMapper {
 
     @Mapping(target = "id", ignore = true)
-    QuoteEntity mapToEntity(Quote domain);
+    QuoteEntity toEntity(Quote domain);
 
-    Quote mapToDomain(QuoteEntity entity);
+    Quote toDomain(QuoteEntity entity);
 }

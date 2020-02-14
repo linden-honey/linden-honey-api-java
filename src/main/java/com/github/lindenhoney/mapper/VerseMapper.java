@@ -9,7 +9,7 @@ import org.mapstruct.Mapping;
 public interface VerseMapper {
 
     @Mapping(target = "id", ignore = true)
-    VerseEntity mapToEntity(Verse domain);
+    VerseEntity toEntity(Verse domain);
 
-    Verse mapToDomain(VerseEntity entity);
+    Verse toDomain(VerseEntity entity);
 }

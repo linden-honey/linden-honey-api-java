@@ -21,7 +21,7 @@ public class QuoteController {
     public ResponseEntity<Quote> getRandomQuote() {
         return ResponseEntity.of(repository
                 .findRandomQuote()
-                .map(quoteMapper::mapToDomain)
+                .map(quoteMapper::toDomain)
         );
     }
 }
