@@ -33,8 +33,8 @@ public interface GenericMapper<D, E> {
         return Chunk.<D>builder()
                 .data(toDomain(page.getContent()))
                 .limit(page.getSize())
-                .offset(page.getPageable().getOffset())
-                .total(page.getTotalElements())
+                .offset(page.getNumber() * page.getSize())
+                .total(page.getNumberOfElements())
                 .sortBy(sortBy)
                 .sortOrder(sortOrder)
                 .build();
