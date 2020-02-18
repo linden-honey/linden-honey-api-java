@@ -21,8 +21,7 @@ public interface GenericMapper<D, E> {
         if (page == null) {
             return null;
         }
-        final Optional<Sort.Order> order = page
-                .getSort()
+        final Optional<Sort.Order> order = page.getSort()
                 .stream()
                 .findFirst();
         final String sortBy = order.map(Sort.Order::getProperty)

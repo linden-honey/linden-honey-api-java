@@ -16,7 +16,9 @@ import java.util.List;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class Chunk<T> {
 
-    public static final int DEFAULT_LIMIT = 20;
+    public static final String DEFAULT_LIMIT = "20";
+    public static final String DEFAULT_OFFSET = "0";
+    public static final String DEFAULT_TOTAL = "0";
     public static final String DEFAULT_SORT_ORDER = "asc";
 
     @NotEmpty
@@ -25,13 +27,15 @@ public class Chunk<T> {
 
     @PositiveOrZero
     @Builder.Default
-    private final int limit = DEFAULT_LIMIT;
+    private final int limit = Integer.parseInt(DEFAULT_LIMIT);
 
     @PositiveOrZero
-    private final int offset;
+    @Builder.Default
+    private final int offset = Integer.parseInt(DEFAULT_OFFSET);
 
     @PositiveOrZero
-    private final int total;
+    @Builder.Default
+    private final int total = Integer.parseInt(DEFAULT_TOTAL);
 
     @NotBlank
     private final String sortBy;
