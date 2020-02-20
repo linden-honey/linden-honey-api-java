@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.PositiveOrZero;
+
 import static com.github.lindenhoney.util.PageableUtil.createPageable;
 
 @RestController
@@ -32,10 +35,10 @@ public class QuoteController {
     @GetMapping("/search/by-phrase")
     public ResponseEntity<Chunk<Quote>> findQuotesByPhrase(
             @RequestParam String phrase,
-            @RequestParam(defaultValue = Chunk.DEFAULT_LIMIT) int limit,
-            @RequestParam(defaultValue = Chunk.DEFAULT_OFFSET) int offset,
-            @RequestParam(defaultValue = "phrase") String sortBy,
-            @RequestParam(defaultValue = Chunk.DEFAULT_SORT_ORDER) String sortOrder
+            @PositiveOrZero @RequestParam(defaultValue = Chunk.DEFAULT_LIMIT) int limit,
+            @PositiveOrZero @RequestParam(defaultValue = Chunk.DEFAULT_OFFSET) int offset,
+            @NotBlank @RequestParam(defaultValue = "phrase") String sortBy,
+            @NotBlank @RequestParam(defaultValue = Chunk.DEFAULT_SORT_ORDER) String sortOrder
     ) {
         return ResponseEntity.ok(
                 quoteMapper.toDomain(
