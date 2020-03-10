@@ -1,4 +1,9 @@
 application:
+  data:
+    loaders:
+      enabled: false
+      remote:
+        url: http://localhost:8081/api/songs
   rest:
     base-path: /api
 
