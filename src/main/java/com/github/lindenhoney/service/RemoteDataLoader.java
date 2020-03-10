@@ -6,16 +6,13 @@ import com.github.lindenhoney.entity.SongEntity;
 import com.github.lindenhoney.repository.SongRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.MediaType;
 import org.springframework.http.codec.json.Jackson2JsonDecoder;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.BodyExtractors;
 import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
