@@ -33,7 +33,7 @@ public interface GenericMapper<D, E> {
                 .data(toDomain(page.getContent()))
                 .limit(page.getSize())
                 .offset(page.getNumber() * page.getSize())
-                .total(page.getNumberOfElements())
+                .total(page.getTotalPages() * page.getSize())
                 .sortBy(sortBy)
                 .sortOrder(sortOrder)
                 .build();

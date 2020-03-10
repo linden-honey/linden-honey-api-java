@@ -19,7 +19,7 @@ public interface QuoteRepository extends Repository<QuoteEntity, Integer> {
     Optional<QuoteEntity> findRandomQuoteFromSong(@Param("songId") Integer songId);
 
     @Query(
-            value = "SELECT DISTINCT ON (q.phrase) * FROM QUOTE q WHERE q.phrase ILIKE %:phrase% /* shitty spring hack #pageable */",
+            value = "SELECT DISTINCT ON (q.phrase) * FROM QUOTE q WHERE q.phrase ILIKE %:phrase%",
             countQuery = "SELECT COUNT(DISTINCT q.phrase) FROM QUOTE q WHERE q.phrase ILIKE %:phrase%",
             nativeQuery = true
     )
