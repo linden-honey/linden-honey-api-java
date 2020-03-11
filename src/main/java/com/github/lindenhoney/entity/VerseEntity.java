@@ -24,7 +24,7 @@ public class VerseEntity {
     private Integer id;
 
     @NotEmpty
-    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @OrderColumn(name = "index", nullable = false)
     @JoinColumn(name = "verse_id", referencedColumnName = "id", nullable = false, updatable = false)
     private List<QuoteEntity> quotes = new ArrayList<>();

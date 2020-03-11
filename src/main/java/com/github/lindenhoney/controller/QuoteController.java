@@ -22,13 +22,13 @@ import static com.github.lindenhoney.util.PageableUtil.createPageable;
 public class QuoteController {
 
     private final QuoteRepository repository;
-    private final QuoteMapper quoteMapper;
+    private final QuoteMapper mapper;
 
     @GetMapping("/search/random")
     public ResponseEntity<Quote> getRandomQuote() {
         return ResponseEntity.of(repository
                 .findRandomQuote()
-                .map(quoteMapper::toDomain)
+                .map(mapper::toDomain)
         );
     }
 
@@ -41,7 +41,7 @@ public class QuoteController {
             @NotBlank @RequestParam(defaultValue = Chunk.DEFAULT_SORT_ORDER) String sortOrder
     ) {
         return ResponseEntity.ok(
-                quoteMapper.toDomain(
+                mapper.toDomain(
                         repository.findQuotesByPhrase(
                                 phrase,
                                 createPageable(limit, offset, sortBy, sortOrder)

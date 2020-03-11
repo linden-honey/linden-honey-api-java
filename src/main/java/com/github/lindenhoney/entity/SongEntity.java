@@ -34,7 +34,7 @@ public class SongEntity {
     private String album;
 
     @NotEmpty
-    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @OrderColumn(name = "index", nullable = false)
     @JoinColumn(name = "song_id", referencedColumnName = "id", nullable = false, updatable = false)
     private List<VerseEntity> verses = new ArrayList<>();
