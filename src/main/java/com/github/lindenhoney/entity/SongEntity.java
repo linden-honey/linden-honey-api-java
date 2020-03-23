@@ -7,6 +7,8 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +25,7 @@ public class SongEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotEmpty
+    @NotBlank
     @Column(name = "title", nullable = false)
     private String title;
 
@@ -33,6 +35,7 @@ public class SongEntity {
     @Column(name = "album")
     private String album;
 
+    @Valid
     @NotEmpty
     @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @OrderColumn(name = "index", nullable = false)
