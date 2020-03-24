@@ -1,122 +1,157 @@
 package com.github.lindenhoney.controller;
 
+import com.github.lindenhoney.domain.Chunk;
 import com.github.lindenhoney.domain.Quote;
 import com.github.lindenhoney.domain.Song;
 import com.github.lindenhoney.domain.Verse;
+import com.github.lindenhoney.mapper.QuoteMapper;
+import com.github.lindenhoney.mapper.SongMapper;
+import com.github.lindenhoney.mapper.VerseMapper;
 import com.github.lindenhoney.repository.QuoteRepository;
+import com.github.lindenhoney.repository.SongRepository;
 import com.github.lindenhoney.repository.VerseRepository;
-import org.springframework.data.rest.webmvc.RepositoryRestController;
-import org.springframework.data.rest.webmvc.ResourceNotFoundException;
-import org.springframework.hateoas.*;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+import static com.github.lindenhoney.util.PageableUtil.createPageable;
 
-@RepositoryRestController
-@ExposesResourceFor(Song.class)
+@RestController
+@RequestMapping("/songs")
+@RequiredArgsConstructor
 public class SongController {
 
     private final QuoteRepository quoteRepository;
+    private final QuoteMapper quoteMapper;
+
     private final VerseRepository verseRepository;
-    private final EntityLinks entityLinks;
+    private final VerseMapper verseMapper;
 
-    public SongController(QuoteRepository quoteRepository, VerseRepository verseRepository, EntityLinks entityLinks) {
-        this.quoteRepository = quoteRepository;
-        this.verseRepository = verseRepository;
-        this.entityLinks = entityLinks;
-    }
+    private final SongRepository songRepository;
+    private final SongMapper songMapper;
 
-    @GetMapping("/songs/{songId}/quotes")
-    @ResponseBody
-    public Resources<Quote> getAllQuotesFromSong(@PathVariable("songId") Integer songId) {
-        final List<Quote> quotes = Optional.ofNullable(quoteRepository.findAllQuotesFromSong(songId))
-                .filter(quoteList -> !quoteList.isEmpty())
-                .orElseThrow(ResourceNotFoundException::new);
-        return new Resources<>(
-                quotes,
-                entityLinks.linkForSingleResource(Song.class, songId).withRel("song"),
-                linkTo(methodOn(SongController.class).getQuotesSearchResource(songId)).withRel("search"),
-                linkTo(methodOn(getClass()).getAllQuotesFromSong(songId)).withSelfRel()
+    @GetMapping("/search/random")
+    public ResponseEntity<Song> getRandomSong() {
+        return ResponseEntity.of(songRepository
+                .findRandomSong()
+                .map(songMapper::toDomain)
         );
     }
 
-    @GetMapping("/songs/{songId}/quotes/search")
-    @ResponseBody
-    public ResourceSupport getQuotesSearchResource(@PathVariable("songId") Integer songId) {
-        final ResourceSupport resource = new ResourceSupport();
-        resource.add(
-                linkTo(methodOn(this.getClass()).getRandomQuoteFromSong(songId)).withRel("random"),
-                linkTo(methodOn(this.getClass()).findQuotesByPhraseFromSong(songId, null)).withRel("by-phrase"),
-                linkTo(methodOn(this.getClass()).getQuotesSearchResource(songId)).withSelfRel()
-        );
-        return resource;
-    }
-
-    @GetMapping("/songs/{songId}/quotes/search/random")
-    @ResponseBody
-    public Resource<Quote> getRandomQuoteFromSong(@PathVariable("songId") Integer songId) {
-        final Quote quote = Optional.ofNullable(quoteRepository.findRandomQuoteFromSong(songId))
-                .orElseThrow(ResourceNotFoundException::new);
-        return new Resource<>(
-                quote,
-                entityLinks.linkForSingleResource(Song.class, songId).withRel("song"),
-                linkTo(methodOn(this.getClass()).getRandomQuoteFromSong(songId)).withSelfRel()
+    @GetMapping("/search/by-title")
+    public ResponseEntity<Chunk<Song>> findSongsByTitle(
+            @RequestParam String title,
+            @PositiveOrZero @RequestParam(defaultValue = Chunk.DEFAULT_LIMIT) int limit,
+            @PositiveOrZero @RequestParam(defaultValue = Chunk.DEFAULT_OFFSET) int offset,
+            @NotBlank @RequestParam(defaultValue = "title") String sortBy,
+            @NotBlank @RequestParam(defaultValue = Chunk.DEFAULT_SORT_ORDER) String sortOrder
+    ) {
+        return ResponseEntity.ok(
+                songMapper.toDomain(
+                        songRepository.findSongsByTitleContainingIgnoreCase(
+                                title,
+                                createPageable(limit, offset, sortBy, sortOrder)
+                        )
+                )
         );
     }
 
-    @GetMapping("/songs/{songId}/quotes/search/by-phrase")
-    @ResponseBody
-    public Resources<Quote> findQuotesByPhraseFromSong(@PathVariable("songId") Integer songId, @RequestParam("phrase") String phrase) {
-        final List<Quote> quotes = Optional.ofNullable(quoteRepository.findQuotesByPhraseFromSong(songId, phrase))
-                .orElseThrow(ResourceNotFoundException::new);
-        return new Resources<>(
-                quotes,
-                entityLinks.linkForSingleResource(Song.class, songId).withRel("song"),
-                linkTo(methodOn(this.getClass()).findQuotesByPhraseFromSong(songId, phrase)).withSelfRel()
+    @GetMapping("/search/by-phrase")
+    public ResponseEntity<Chunk<Song>> findSongsByPhrase(
+            @RequestParam String phrase,
+            @PositiveOrZero @RequestParam(defaultValue = Chunk.DEFAULT_LIMIT) int limit,
+            @PositiveOrZero @RequestParam(defaultValue = Chunk.DEFAULT_OFFSET) int offset,
+            @NotBlank @RequestParam(defaultValue = "title") String sortBy,
+            @NotBlank @RequestParam(defaultValue = Chunk.DEFAULT_SORT_ORDER) String sortOrder
+    ) {
+        return ResponseEntity.ok(
+                songMapper.toDomain(
+                        songRepository.findDistinctSongsByVersesQuotesPhraseContainingIgnoreCase(
+                                phrase,
+                                createPageable(limit, offset, sortBy, sortOrder)
+                        )
+                )
         );
     }
 
-    @GetMapping("/songs/{songId}/verses")
-    @ResponseBody
-    public Resources<Verse> getAllVersesFromSong(@PathVariable("songId") Integer songId) {
-        final List<Verse> verses = Optional.ofNullable(verseRepository.findAllVersesFromSong(songId))
-                .filter(verseList -> !verseList.isEmpty())
-                .orElseThrow(ResourceNotFoundException::new);
-        return new Resources<>(
-                verses,
-                entityLinks.linkForSingleResource(Song.class, songId).withRel("song"),
-                linkTo(methodOn(SongController.class).getVersesSearchResource(songId)).withRel("search"),
-                linkTo(methodOn(this.getClass()).getAllVersesFromSong(songId)).withSelfRel()
+    @GetMapping
+    public ResponseEntity<Chunk<Song>> getAllSongs(
+            @PositiveOrZero @RequestParam(defaultValue = Chunk.DEFAULT_LIMIT) int limit,
+            @PositiveOrZero @RequestParam(defaultValue = Chunk.DEFAULT_OFFSET) int offset,
+            @NotBlank @RequestParam(defaultValue = "title") String sortBy,
+            @NotBlank @RequestParam(defaultValue = Chunk.DEFAULT_SORT_ORDER) String sortOrder
+    ) {
+        return ResponseEntity.ok(
+                songMapper.toDomain(
+                        songRepository.findAll(
+                                createPageable(limit, offset, sortBy, sortOrder)
+                        )
+                )
         );
     }
 
-    @GetMapping("/songs/{songId}/verses/search")
-    @ResponseBody
-    public ResourceSupport getVersesSearchResource(@PathVariable("songId") Integer songId) {
-        final ResourceSupport resource = new ResourceSupport();
-        resource.add(
-                linkTo(methodOn(this.getClass()).getRandomVerseFromSong(songId)).withRel("random"),
-                linkTo(methodOn(this.getClass()).getVersesSearchResource(songId)).withSelfRel()
+    @GetMapping("/{id}")
+    public ResponseEntity<Song> getRandomSong(@PathVariable Integer id) {
+        return ResponseEntity.of(songRepository
+                .findById(id)
+                .map(songMapper::toDomain)
         );
-        return resource;
     }
 
-    @GetMapping("/songs/{songId}/verses/search/random")
-    @ResponseBody
-    public Resource<Verse> getRandomVerseFromSong(@PathVariable("songId") Integer songId) {
-        final Verse verse = Optional.ofNullable(verseRepository.findRandomVerseFromSong(songId))
-                .orElseThrow(ResourceNotFoundException::new);
-        return new Resource<>(
-                verse,
-                entityLinks.linkForSingleResource(Song.class, songId).withRel("song"),
-                linkTo(methodOn(this.getClass()).getRandomVerseFromSong(songId)).withSelfRel()
+    @GetMapping("/{id}/quotes")
+    public ResponseEntity<List<Quote>> getQuotesFromSong(@PathVariable Integer id) {
+        return ResponseEntity.of(
+                songRepository.findById(id)
+                        .map(songMapper::toDomain)
+                        .map(song -> song.getVerses()
+                                .stream()
+                                .flatMap(verse -> verse.getQuotes().stream())
+                                .collect(Collectors.toList())
+                        )
+        );
+    }
+
+    @GetMapping("/{id}/quotes/search/random")
+    public ResponseEntity<Quote> getRandomQuoteFromSong(@PathVariable Integer id) {
+        return ResponseEntity.of(quoteRepository
+                .findRandomQuoteFromSong(id)
+                .map(quoteMapper::toDomain)
+        );
+    }
+
+    @GetMapping("/{id}/quotes/search/by-phrase")
+    public ResponseEntity<List<Quote>> getQuotesFromSong(
+            @PathVariable Integer id,
+            @RequestParam String phrase
+    ) {
+        final List<Quote> quotes = quoteRepository.findQuotesByPhraseFromSong(id, phrase)
+                .stream()
+                .map(quoteMapper::toDomain)
+                .collect(Collectors.toList());
+        return quotes.isEmpty()
+                ? ResponseEntity.notFound().build()
+                : ResponseEntity.ok(quotes);
+    }
+
+    @GetMapping("/{id}/verses")
+    public ResponseEntity<List<Verse>> getVersesFromSong(@PathVariable Integer id) {
+        return ResponseEntity.of(
+                songRepository.findById(id)
+                        .map(songMapper::toDomain)
+                        .map(Song::getVerses)
+        );
+    }
+
+    @GetMapping("/{id}/verses/search/random")
+    public ResponseEntity<Verse> getRandomVerseFromSong(@PathVariable Integer id) {
+        return ResponseEntity.of(verseRepository
+                .findRandomVerseFromSong(id)
+                .map(verseMapper::toDomain)
         );
     }
 }

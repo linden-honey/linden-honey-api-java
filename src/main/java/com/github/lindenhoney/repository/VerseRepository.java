@@ -1,22 +1,21 @@
 package com.github.lindenhoney.repository;
 
-import com.github.lindenhoney.domain.Verse;
+import com.github.lindenhoney.entity.VerseEntity;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.List;
+import java.util.Optional;
 
-@RepositoryRestResource(exported = false)
-public interface VerseRepository extends Repository<Verse, Integer> {
+public interface VerseRepository extends Repository<VerseEntity, Integer> {
 
     @Query(value = "SELECT * FROM VERSE ORDER BY RANDOM() LIMIT 1", nativeQuery = true)
-    Verse findRandomVerse();
+    Optional<VerseEntity> findRandomVerse();
 
     @Query(value = "SELECT * FROM VERSE v WHERE v.song_id = :songId ORDER BY RANDOM() LIMIT 1", nativeQuery = true)
-    Verse findRandomVerseFromSong(@Param("songId") Integer songId);
+    Optional<VerseEntity> findRandomVerseFromSong(@Param("songId") Integer songId);
 
     @Query(value = "SELECT * FROM VERSE v WHERE v.song_id = :songId", nativeQuery = true)
-    List<Verse> findAllVersesFromSong(@Param("songId") Integer songId);
+    List<VerseEntity> findAllVersesFromSong(@Param("songId") Integer songId);
 }
