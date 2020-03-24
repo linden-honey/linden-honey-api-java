@@ -1,6 +1,6 @@
 package com.github.lindenhoney.service;
 
-import com.github.lindenhoney.configuration.DataLoaderConfiguration;
+import com.github.lindenhoney.configuration.DataLoadersConfiguration;
 import com.github.lindenhoney.configuration.RemoteDataLoaderProperties;
 import com.github.lindenhoney.entity.SongEntity;
 import com.github.lindenhoney.repository.SongRepository;
@@ -16,7 +16,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@ConditionalOnBean(DataLoaderConfiguration.class)
+@ConditionalOnBean(DataLoadersConfiguration.class)
 @Service
 @Slf4j
 public class RemoteDataLoader implements DataLoader {

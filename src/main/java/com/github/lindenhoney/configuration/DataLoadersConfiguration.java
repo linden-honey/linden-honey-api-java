@@ -15,7 +15,7 @@ import java.util.List;
 @Configuration
 @Slf4j
 @RequiredArgsConstructor
-public class DataLoaderConfiguration {
+public class DataLoadersConfiguration {
 
     private final List<DataLoader> dataLoaders;
 
