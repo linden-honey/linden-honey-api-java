@@ -10,8 +10,11 @@ import javax.validation.constraints.NotBlank;
 @Value
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class Quote {
+public class Preview {
 
     @NotBlank
-    private final String phrase;
+    private final String id;
+
+    @NotBlank
+    private final String title;
 }

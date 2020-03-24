@@ -1,30 +1,35 @@
-version: "3"
+version: "3.7"
 
 services:
   db:
-    container_name: linden-honey-spring-db
-    image: "postgres:latest"
+    image: postgres:12.1-alpine
     environment:
-     - POSTGRES_USER=linden-honey
-     - POSTGRES_PASSWORD=linden-honey
-     - POSTGRES_DB=linden-honey
+      POSTGRES_USER: linden-honey
+      POSTGRES_PASSWORD: linden-honey
+      POSTGRES_DB: linden-honey
+    restart: on-failure
     ports:
-     - "5432:5432"
+     - 5432:5432
     networks:
-      - linden-honey-spring-net
+      - internal
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
   app:
-    container_name: linden-honey-spring-app
     image: lindenhoney/linden-honey-spring
     build: .
-    ports:
-     - "8080:8080"
-    networks:
-      - linden-honey-spring-net
-    links:
-     - db
+    depends_on:
+      - db
     environment:
-     - LINDEN_HONEY_DB_URL=jdbc:postgresql://db:5432/linden-honey?user=linden-honey&password=linden-honey
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/linden-honey?user=linden-honey&password=linden-honey
+    ports:
+      - 8080:80
+    networks:
+      - internal
+
+volumes:
+  db_data:
 
 networks:
-  linden-honey-spring-net:
+  internal:
     driver: bridge
