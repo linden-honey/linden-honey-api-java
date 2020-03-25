@@ -36,7 +36,8 @@ public class QuoteController {
             @RequestParam String phrase,
             @PositiveOrZero @RequestParam(defaultValue = Chunk.DEFAULT_LIMIT) int limit,
             @PositiveOrZero @RequestParam(defaultValue = Chunk.DEFAULT_OFFSET) int offset,
-            @RequestParam(defaultValue = "phrase") String sortBy@RequestParam(defaultValue = Chunk.DEFAULT_SORT_ORDER) String sortOrder
+            @RequestParam(defaultValue = "phrase") String sortBy,
+            @RequestParam(defaultValue = Chunk.DEFAULT_SORT_ORDER) String sortOrder
     ) {
         return ResponseEntity.ok(
                 mapper.toDomain(
