@@ -1,9 +1,7 @@
 package com.github.lindenhoney.controller;
 
-import com.github.lindenhoney.domain.Chunk;
-import com.github.lindenhoney.domain.Quote;
-import com.github.lindenhoney.domain.Song;
-import com.github.lindenhoney.domain.Verse;
+import com.github.lindenhoney.domain.*;
+import com.github.lindenhoney.mapper.PreviewMapper;
 import com.github.lindenhoney.mapper.QuoteMapper;
 import com.github.lindenhoney.mapper.SongMapper;
 import com.github.lindenhoney.mapper.VerseMapper;
@@ -34,6 +32,7 @@ public class SongController {
 
     private final SongRepository songRepository;
     private final SongMapper songMapper;
+    private final PreviewMapper previewMapper;
 
     @GetMapping("/search/random")
     public ResponseEntity<Song> getRandomSong() {
@@ -44,7 +43,7 @@ public class SongController {
     }
 
     @GetMapping("/search/by-title")
-    public ResponseEntity<Chunk<Song>> findSongsByTitle(
+    public ResponseEntity<Chunk<Preview>> findSongsByTitle(
             @RequestParam String title,
             @PositiveOrZero @RequestParam(defaultValue = Chunk.DEFAULT_LIMIT) int limit,
             @PositiveOrZero @RequestParam(defaultValue = Chunk.DEFAULT_OFFSET) int offset,
@@ -52,7 +51,7 @@ public class SongController {
             @NotBlank @RequestParam(defaultValue = Chunk.DEFAULT_SORT_ORDER) String sortOrder
     ) {
         return ResponseEntity.ok(
-                songMapper.toDomain(
+                previewMapper.toDomain(
                         songRepository.findSongsByTitleContainingIgnoreCase(
                                 title,
                                 createPageable(limit, offset, sortBy, sortOrder)
@@ -62,7 +61,7 @@ public class SongController {
     }
 
     @GetMapping("/search/by-phrase")
-    public ResponseEntity<Chunk<Song>> findSongsByPhrase(
+    public ResponseEntity<Chunk<Preview>> findSongsByPhrase(
             @RequestParam String phrase,
             @PositiveOrZero @RequestParam(defaultValue = Chunk.DEFAULT_LIMIT) int limit,
             @PositiveOrZero @RequestParam(defaultValue = Chunk.DEFAULT_OFFSET) int offset,
@@ -70,7 +69,7 @@ public class SongController {
             @NotBlank @RequestParam(defaultValue = Chunk.DEFAULT_SORT_ORDER) String sortOrder
     ) {
         return ResponseEntity.ok(
-                songMapper.toDomain(
+                previewMapper.toDomain(
                         songRepository.findDistinctSongsByVersesQuotesPhraseContainingIgnoreCase(
                                 phrase,
                                 createPageable(limit, offset, sortBy, sortOrder)
@@ -80,14 +79,14 @@ public class SongController {
     }
 
     @GetMapping
-    public ResponseEntity<Chunk<Song>> getAllSongs(
+    public ResponseEntity<Chunk<Preview>> getAllSongs(
             @PositiveOrZero @RequestParam(defaultValue = Chunk.DEFAULT_LIMIT) int limit,
             @PositiveOrZero @RequestParam(defaultValue = Chunk.DEFAULT_OFFSET) int offset,
             @NotBlank @RequestParam(defaultValue = "title") String sortBy,
             @NotBlank @RequestParam(defaultValue = Chunk.DEFAULT_SORT_ORDER) String sortOrder
     ) {
         return ResponseEntity.ok(
-                songMapper.toDomain(
+                previewMapper.toDomain(
                         songRepository.findAll(
                                 createPageable(limit, offset, sortBy, sortOrder)
                         )
