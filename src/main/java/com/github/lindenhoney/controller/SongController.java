@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -47,8 +46,8 @@ public class SongController {
             @RequestParam String title,
             @PositiveOrZero @RequestParam(defaultValue = Chunk.DEFAULT_LIMIT) int limit,
             @PositiveOrZero @RequestParam(defaultValue = Chunk.DEFAULT_OFFSET) int offset,
-            @NotBlank @RequestParam(defaultValue = "title") String sortBy,
-            @NotBlank @RequestParam(defaultValue = Chunk.DEFAULT_SORT_ORDER) String sortOrder
+            @RequestParam(defaultValue = "title") String sortBy,
+            @RequestParam(defaultValue = Chunk.DEFAULT_SORT_ORDER) String sortOrder
     ) {
         return ResponseEntity.ok(
                 previewMapper.toDomain(
@@ -65,8 +64,8 @@ public class SongController {
             @RequestParam String phrase,
             @PositiveOrZero @RequestParam(defaultValue = Chunk.DEFAULT_LIMIT) int limit,
             @PositiveOrZero @RequestParam(defaultValue = Chunk.DEFAULT_OFFSET) int offset,
-            @NotBlank @RequestParam(defaultValue = "title") String sortBy,
-            @NotBlank @RequestParam(defaultValue = Chunk.DEFAULT_SORT_ORDER) String sortOrder
+            @RequestParam(defaultValue = "title") String sortBy,
+            @RequestParam(defaultValue = Chunk.DEFAULT_SORT_ORDER) String sortOrder
     ) {
         return ResponseEntity.ok(
                 previewMapper.toDomain(
@@ -82,8 +81,8 @@ public class SongController {
     public ResponseEntity<Chunk<Preview>> getAllSongs(
             @PositiveOrZero @RequestParam(defaultValue = Chunk.DEFAULT_LIMIT) int limit,
             @PositiveOrZero @RequestParam(defaultValue = Chunk.DEFAULT_OFFSET) int offset,
-            @NotBlank @RequestParam(defaultValue = "title") String sortBy,
-            @NotBlank @RequestParam(defaultValue = Chunk.DEFAULT_SORT_ORDER) String sortOrder
+            @RequestParam(defaultValue = "title") String sortBy,
+            @RequestParam(defaultValue = Chunk.DEFAULT_SORT_ORDER) String sortOrder
     ) {
         return ResponseEntity.ok(
                 previewMapper.toDomain(
