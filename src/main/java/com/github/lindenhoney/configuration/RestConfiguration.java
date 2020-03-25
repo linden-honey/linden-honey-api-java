@@ -18,7 +18,7 @@ public class RestConfiguration implements WebFluxConfigurer {
     @Override
     public void configurePathMatching(PathMatchConfigurer config) {
         config.setUseCaseSensitiveMatch(false)
-                .setUseTrailingSlashMatch(false)
+                .setUseTrailingSlashMatch(true)
                 .addPathPrefix(properties.getBasePath(), HandlerTypePredicate.forBasePackageClass(Application.class));
     }
 }
