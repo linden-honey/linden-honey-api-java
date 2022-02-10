@@ -10,6 +10,8 @@ services:
     restart: on-failure
     ports:
      - 5432:5432
+    networks:
+      - internal
     volumes:
       - db_data:/var/lib/postgresql/data
 
@@ -22,6 +24,12 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/linden-honey?user=linden-honey&password=linden-honey
     ports:
       - 8080:80
+    networks:
+      - internal
 
 volumes:
   db_data:
+
+networks:
+  internal:
+    driver: bridge
