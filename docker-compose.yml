@@ -16,7 +16,7 @@ services:
       - db_data:/var/lib/postgresql/data
 
   app:
-    image: lindenhoney/linden-honey-spring
+    image: lindenhoney/linden-honey-api-java
     build: .
     depends_on:
       - db
